@@ -15,6 +15,7 @@ function Scene:createScene(initX)
     scene:insert(ground)
     _Physics.addBody(ground, "static", {density = 1.0, friction = 0.3, bounce = 0.01})
     scene.ground = ground
+    ground.id = "ground"
     
     -- add random placeholder box
     local x = display.newRect(initX + 200, display.contentHeight - GROUND_HEIGHT - 100, 300, 100)
@@ -37,7 +38,7 @@ function Scene:createScene(initX)
     function scene:removeCrate(crate)
         local scene = crate.scene
         if(crate and scene) then
-            scene:remove(crate)
+            crate:removeSelf()
         end
         scene.obstacles['crate'] = nil
         
