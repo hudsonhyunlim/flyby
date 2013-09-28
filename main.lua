@@ -8,7 +8,7 @@
 -- 2013-09-27
 
 -- | VARIABLE DECLARATIONS | --
-local _Physics = require "physics"				-- This is the object that handles the world's physics
+local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
 local _Plane = display.newImage( "ika.png" )	-- The player character object
 local _Ascend = false							-- Is the user currently pressing to fly?
 local _Ceiling = display.newRect(0, -1, display.contentWidth, 1)	-- Prevents plane from returning to its people
@@ -69,16 +69,7 @@ timer.performWithDelay(5, _Plane)
 local SCENE_BUFFER_SIZE = 3
 local sceneSpeed = -20
 local scenes = {}
-
-local function createScene(initX)
-    local scene = display.newGroup()
-    local ground = display.newRect(initX, display.contentHeight-50, display.contentWidth, 50)
-    ground:setFillColor(math.random(100,255), math.random(100,255), math.random(100,255))
-    scene:insert(ground)
-    scene.ground = ground
-    _Physics.addBody(ground, "static", {density = 1.0, friction = 0.3, bounce = 0.01})
-    return scene
-end
+local Scene = require('scene')
 
 local function destroySceneHandler()
     --ground:removeSelf()
@@ -89,14 +80,14 @@ local function testFunc()
 end
 
 -- create initial scenes
-table.insert(scenes, createScene(0))
-table.insert(scenes, createScene(display.contentWidth))
+table.insert(scenes, Scene:createScene(0))
+table.insert(scenes, Scene:createScene(display.contentWidth))
 
 local function drawScene()
     if(scenes[1].ground.x <= -(display.contentWidth/2)) then
         local scene = table.remove(scenes, 1)
         scene:removeSelf()
-        table.insert(scenes, createScene(display.contentWidth))
+        table.insert(scenes, Scene:createScene(display.contentWidth))
     end
     for k,scene in pairs(scenes) do
         if scene then
