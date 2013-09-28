@@ -83,8 +83,7 @@ local function drawScene()
         -- add new scene off screen to right
         table.insert(_scenes, Scene:createScene(display.contentWidth + offset ))
         
-        -- move foreground
-        _ForeGroundImage.x = display.contentWidth - offset
+        _ForeGroundImage.x = display.contentWidth + offset
     end
     for k,scene in pairs(_scenes) do
         if scene then
