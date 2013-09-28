@@ -21,7 +21,7 @@ function monster.init()
 	local t_monster = display.newImage("images/zepp.png")
 	local physicsData = (require "physicseditor.zepp").physicsData(1.0)
 	_Physics.addBody( t_monster,"static", physicsData:get("zepp") )
-	t_monster.x = display.contentWidth 
+	t_monster.x = (display.contentWidth + (t_monster.width / 2))
 	t_monster.y = 50
 	t_monster.id = "zepp"
 	_MonsterCount[t_monster.id] = _MonsterCount[t_monster.id] + 1
