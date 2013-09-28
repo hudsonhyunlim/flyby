@@ -1,44 +1,71 @@
-local hero = display.newImage( "ika.png" )
-hero.x = display.contentWidth / 2
-hero.y = 50
-hero.myName = 'hero'
---ika.rotation = 35
+-----------------------------------------------------------------------------------------
+-- 
+-- main.lua
+--
+-----------------------------------------------------------------------------------------
+-- Fly By
+-- Fox Dark
+-- 2013-09-27
 
-local monster = display.newImage( "ika.png" )
-monster.x = display.contentWidth - 100
-monster.y = display.contentHeight - 100
-monster.myName = 'monster'
+-- | VARIABLE DECLARATIONS | --
+local _Physics = require "physics"				-- This is the object that handles the world's physics
+local _Plane = display.newImage( "ika.png" )	-- The player character object
+local _Ascend = false							-- Is the user currently pressing to fly?
+local _Ceiling = display.newRect(0, -1, display.contentWidth, 1)	-- Prevents plane from returning to its people
 
-local topWall = display.newRect(50, 0, display.contentWidth - 50, 20)
-topWall.myName = 'topWall'
+-- | PHYSICS PRIMER | --
+_Physics.start()	-- Engage Physics
+_Physics.addBody(_Plane, {density = 1.0, friction = 0.8, bounce = 0.01}) -- Add the plane to physics engine
+_Physics.addBody(_Ceiling, "static", {density = 1.0, friction = 0.3, bounce = 0.01})
+
+-- | PLANE PHYSICS | --
+_Plane.isFixedRotation = true
+_Plane.x = display.contentWidth / 2
+_Plane.y = 50
+_Plane.myName = '_Plane'
+
 
 local function onCollision( event )
         if ( event.phase == "began" ) then
  
-                print( "began: " .. event.object1.myName .. " & " .. event.object2.myName )
+                -- print( "began: " .. event.object1.myName .. " & " .. event.object2.myName )
 				--event.object2:setLinearVelocity( 0, -100)
         elseif ( event.phase == "ended" ) then
  
-                print( "ended: " .. event.object1.myName .. " & " .. event.object2.myName )
+                -- print( "ended: " .. event.object1.myName .. " & " .. event.object2.myName )
  
         end
 end
 
-local function handleScreenTap( event )
-	local function forth()
-		transition.to( hero, { time=400, x=(hero.x-50), transition = easing.outQuad, onComplete = back} )
+
+function _Plane:timer(event)
+	local vx, vy = _Plane:getLinearVelocity()
+	if _Ascend == true then
+		if vy > -500 then
+			_Plane:applyForce(0, -100, 0, 0)
+		end
 	end
-	local function back()
-		transition.to( hero, { time=400, x=(hero.x+50), transition = easing.inQuad, onComplete = forth} )
+	timer.performWithDelay(5, _Plane)
+end
+
+local function onTouch( event )
+	if event.phase == "began" then
+		_Ascend = true
+		
+	elseif event.phase == "ended" then
+		_Ascend = false
 	end
-	back()
-	
 end
 
 Runtime:addEventListener( "collision", onCollision )
 
-Runtime:addEventListener( "tap", handleScreenTap )
+-- Runtime:addEventListener( "tap", handleScreenTap )
 
+Runtime:addEventListener("touch", onTouch)
+
+timer.performWithDelay(5, _Plane)
+
+-- ----------------------------
 local SCENE_BUFFER_SIZE = 3
 local sceneSpeed = -20
 local scenes = {}
