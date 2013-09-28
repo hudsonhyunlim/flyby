@@ -58,13 +58,15 @@ table.insert(_scenes, Scene:createScene(0))
 table.insert(_scenes, Scene:createScene(display.contentWidth))
 
 local function drawScene()
-    if(_scenes[1].ground.x <= -(display.contentWidth/2)) then
+    local offset = math.floor( (display.contentWidth/2) + _scenes[1].ground.x )
+    
+    if(offset <= _Physics.sceneSpeed) then
         -- remove scene
         local scene = table.remove(_scenes, 1)
         scene:removeSelf()
         
         -- add new scene off screen to right
-        table.insert(_scenes, Scene:createScene(display.contentWidth))
+        table.insert(_scenes, Scene:createScene(display.contentWidth + offset ))
     end
     for k,scene in pairs(_scenes) do
         if scene then
