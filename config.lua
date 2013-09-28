@@ -6,6 +6,7 @@ application =
         height = 960,
         scale = "letterbox",
         xAlign = "left",
-        yAlign = "top"
+        yAlign = "top",
+
     }
 }
