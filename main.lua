@@ -10,6 +10,7 @@
 -- | VARIABLE DECLARATIONS | --
 local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
 local _Plane = require "plane"
+local _Monsters = require "monster"
 
 local _Gamestate = require "gamestate"
 
@@ -22,6 +23,7 @@ system.setIdleTimer(false)	-- Don't let the screen fall asleep
 -- | PHYSICS PRIMER | --
 _Physics.start()	-- Engage Physics
 _Plane.init()		-- Engage Plane
+_Monsters.init()	-- Engage Monsters
 
 local function onCollision( event )
         if ( event.phase == "began" ) then
@@ -80,8 +82,10 @@ local function drawScene()
                 object:translate(-_Physics.sceneSpeed, 0)
             end
             
+			
         end
     end
+	_Monsters.scroll()
 end
 
 timer.performWithDelay(1, drawScene, -1)
