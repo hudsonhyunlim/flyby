@@ -15,7 +15,11 @@ local _Monsters = require "monster"
 local _Gamestate = require "gamestate"
 
 local _scenes = {}
-local Scene = require('scene')
+local Scene = require('scene')  -- Scene is a library, not a variable
+
+local _ForeGroundImage = display.newImageRect( 'images/Ground_01.png', 1920, 69 )
+_ForeGroundImage.x = display.contentWidth
+_ForeGroundImage.y = display.contentHeight - 35
 
 -- | SYSTEM SETTINGS | --
 system.setIdleTimer(false)	-- Don't let the screen fall asleep
@@ -71,6 +75,9 @@ local function drawScene()
         
         -- add new scene off screen to right
         table.insert(_scenes, Scene:createScene(display.contentWidth + offset ))
+        
+        -- move foreground
+        _ForeGroundImage.x = display.contentWidth - offset
     end
     for k,scene in pairs(_scenes) do
         if scene then
@@ -85,6 +92,10 @@ local function drawScene()
 			
         end
     end
+    
+    -- move foreground
+    _ForeGroundImage:translate(-_Physics.sceneSpeed, 0)
+    
 	_Monsters.scroll()
 end
 

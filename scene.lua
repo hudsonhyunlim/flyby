@@ -2,7 +2,7 @@ local Scene = {}
 local _Physics = require('gamephysics')
 
 -- constants
-local GROUND_HEIGHT = 50
+local GROUND_HEIGHT = 40
 
 function Scene:createScene(initX)
     local scene = display.newGroup()
@@ -10,7 +10,8 @@ function Scene:createScene(initX)
     
     -- add ground
     local ground = display.newRect(initX, display.contentHeight - GROUND_HEIGHT, display.contentWidth, GROUND_HEIGHT)
-    ground:setFillColor(math.random(100,255), math.random(100,255), math.random(100,255))   -- TODO: random color for now, kill me at some point
+    ground:setFillColor(255, 0, 0)   -- TODO: random color for now, kill me at some point
+    ground.alpha = 0.0
     scene:insert(ground)
     _Physics.addBody(ground, "static", {density = 1.0, friction = 0.3, bounce = 0.01})
     scene.ground = ground
