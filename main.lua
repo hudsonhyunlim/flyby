@@ -48,6 +48,7 @@ local function createScene(initX)
     local ground = display.newRect(initX, 640-50, 960, 50)
     ground:setFillColor(math.random(100,255), math.random(100,255), math.random(100,255))
     scene:insert(ground)
+    scene.ground = ground
     return scene
 end
 
@@ -60,18 +61,18 @@ local function testFunc()
 end
 
 -- create initial scenes
-table.insert(scenes, 1, createScene(0))
-table.insert(scenes, 1, createScene(960))
+table.insert(scenes, createScene(0))
+table.insert(scenes, createScene(960))
 
 local function drawScene()
-    if(scenes[1].x <= -960) then
-        local scene = table.remove(scenes)
+    if(scenes[1].ground.x <= -480) then
+        local scene = table.remove(scenes, 1)
         scene:removeSelf()
-        table.insert(scenes, 1, createScene(960))
+        table.insert(scenes, createScene(960))
     end
     for k,scene in pairs(scenes) do
         if scene then
-            scene:translate(sceneSpeed, 0)
+            scene.ground:translate(sceneSpeed, 0)
         end
     end
 end
