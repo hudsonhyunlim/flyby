@@ -51,15 +51,8 @@ Runtime:addEventListener("touch", onTouch)
 
 timer.performWithDelay(5, _Plane)
 
-local function keys(e)
-    for k,v in pairs(e) do
-      print(k)
-    end
-end
-
 local function onCollision(self, event)
     if(event.other.id and event.other.id == "crate") then
-        print("collided with crate")
         _Gamestate:addScore()
         
         -- remove and clean off crate from game
