@@ -92,6 +92,11 @@ local function drawScene()
     for k,scene in pairs(scenes) do
         if scene then
             scene.ground:translate(sceneSpeed, 0)
+            
+            for k, object in pairs(scene.obstacles) do
+                object:translate(sceneSpeed, 0)
+            end
+            
         end
     end
 end
