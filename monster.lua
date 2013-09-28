@@ -19,6 +19,8 @@ local _Monsters = {}
 
 function monster.init()
 	local t_monster = display.newImage("images/zepp.png")
+	local physicsData = (require "physicseditor.zepp").physicsData(1.0)
+	_Physics.addBody( t_monster,"static", physicsData:get("zepp") )
 	t_monster.x = display.contentWidth 
 	t_monster.y = 50
 	t_monster.id = "zepp"
@@ -30,7 +32,7 @@ end
 function monster.scroll()
 	for i=1, #_Monsters do
 		_Monsters[i]:translate(-_Physics.sceneSpeed, 0)
-		if _Monsters[i].x < 0 then
+		if (_Monsters[i].x + (_Monsters[i].width / 2)) < 0 then
 			print(_MonsterCount[_Monsters[i].id])
 			_MonsterCount[_Monsters[i].id] = _MonsterCount[_Monsters[i].id] - 1
 			print(_MonsterCount[_Monsters[i].id])
