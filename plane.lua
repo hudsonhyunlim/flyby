@@ -13,6 +13,7 @@ local _Physics = require "gamephysics"				-- This is the object that handles the
 local _Plane = display.newImage( "images/PlayerPlane.png" )	-- The player character object
 local _Ascend = false							-- Is the user currently pressing to fly?
 local _Ceiling = display.newRect(0, -1, display.contentWidth, 1)	-- Prevents plane from returning to its people
+local _Gamestate = require "gamestate"
 
 
 function plane.init()
@@ -24,7 +25,7 @@ function plane.init()
 	_Plane.isFixedRotation = true
 	_Plane.x = display.contentWidth / 2
 	_Plane.y = 50
-	_Plane.myName = '_Plane'
+	_Plane.id = '_Plane'
 end
 
 function _Plane:timer(event)
@@ -49,5 +50,28 @@ end
 Runtime:addEventListener("touch", onTouch)
 
 timer.performWithDelay(5, _Plane)
+
+local function keys(e)
+    for k,v in pairs(e) do
+      print(k)
+    end
+end
+
+local function onCollision(self, event)
+    if(event.other.id and event.other.id == "crate") then
+        print("collided with crate")
+        _Gamestate:addScore()
+        
+        -- remove and clean off crate from game
+        local crate = event.other
+        timer.performWithDelay(1, function()
+            -- remove the crate
+            crate.scene:removeCrate(crate)
+        end, 1)
+    end
+end
+
+_Plane.collision = onCollision
+_Plane:addEventListener("collision", _Plane)
 
 return plane

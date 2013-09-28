@@ -12,6 +12,8 @@ local _Physics = require "gamephysics"				-- This is the object that handles the
 local _Plane = require "plane"
 local _Monsters = require "monster"
 
+local _Gamestate = require "gamestate"
+
 local _scenes = {}
 local Scene = require('scene')
 

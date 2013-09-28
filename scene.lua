@@ -26,10 +26,27 @@ function Scene:createScene(initX)
     local crate = display.newImage( "images/crate_plain.png" )
     crate.x = initX + 300
     crate.y = display.contentHeight - GROUND_HEIGHT - 120
+    crate.id = "crate"
+    _Physics.addBody(crate, "dynamic", {density = 0.01, friction = 0.01, bounce = 0.01})
     scene:insert(crate)
-    table.insert(scene.obstacles, crate)
+    scene.obstacles['crate'] = crate
+    -- reverse pointer back to scene
+    crate.scene = scene
+    
+    function scene:removeCrate(crate)
+        local scene = crate.scene
+        scene:remove(crate)
+        scene.obstacles['crate'] = nil
+        
+    end
     
     return scene
+end
+
+function Scene:removeCrate(crate)
+    local scene = crate.scene
+    table.remove(scene.obstacles, crate)
+    scene:remove(crate)
 end
 
 return Scene
