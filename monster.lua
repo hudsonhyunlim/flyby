@@ -30,7 +30,7 @@ end
 function monster.scroll()
 	for i=1, #_Monsters do
 		_Monsters[i]:translate(-_Physics.sceneSpeed, 0)
-		if _Monsters[i].x < 0 then
+		if (_Monsters[i].x + (_Monsters[i].width / 2)) < 0 then
 			print(_MonsterCount[_Monsters[i].id])
 			_MonsterCount[_Monsters[i].id] = _MonsterCount[_Monsters[i].id] - 1
 			print(_MonsterCount[_Monsters[i].id])
