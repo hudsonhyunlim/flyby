@@ -72,7 +72,7 @@ local scenes = {}
 
 local function createScene(initX)
     local scene = display.newGroup()
-    local ground = display.newRect(initX, 640-50, 960, 50)
+    local ground = display.newRect(initX, display.contentHeight-50, display.contentWidth, 50)
     ground:setFillColor(math.random(100,255), math.random(100,255), math.random(100,255))
     scene:insert(ground)
     scene.ground = ground
@@ -90,13 +90,13 @@ end
 
 -- create initial scenes
 table.insert(scenes, createScene(0))
-table.insert(scenes, createScene(960))
+table.insert(scenes, createScene(display.contentWidth))
 
 local function drawScene()
-    if(scenes[1].ground.x <= -480) then
+    if(scenes[1].ground.x <= -(display.contentWidth/2)) then
         local scene = table.remove(scenes, 1)
         scene:removeSelf()
-        table.insert(scenes, createScene(960))
+        table.insert(scenes, createScene(display.contentWidth))
     end
     for k,scene in pairs(scenes) do
         if scene then
