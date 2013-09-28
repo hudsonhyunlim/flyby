@@ -7,19 +7,26 @@
 -- Fox Dark
 -- 2013-09-27
 
+-- | iphone status bar | --
+display.setStatusBar( display.HiddenStatusBar )
+
 -- | VARIABLE DECLARATIONS | --
-local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
-local _Plane = require "plane"
-local _Monsters = require "monster"
-
-local _Gamestate = require "gamestate"
-
-local _scenes = {}
-local Scene = require('scene')  -- Scene is a library, not a variable
+local _StaticBackground = display.newImageRect('images/Background_02_sky.png', 960, 640)
+_StaticBackground.x = display.contentWidth/2
+_StaticBackground.y = display.contentHeight/2
 
 local _ForeGroundImage = display.newImageRect( 'images/Ground_01.png', 1920, 69 )
 _ForeGroundImage.x = display.contentWidth
 _ForeGroundImage.y = display.contentHeight - 35
+
+local _Gamestate = require "gamestate"
+
+local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
+local _Plane = require "plane"
+local _Monsters = require "monster"
+
+local _scenes = {}
+local Scene = require('scene')  -- Scene is a library, not a variable
 
 -- | SYSTEM SETTINGS | --
 system.setIdleTimer(false)	-- Don't let the screen fall asleep
