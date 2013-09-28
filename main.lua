@@ -65,8 +65,10 @@ local function drawScene()
     end
     for k,scene in pairs(_scenes) do
         if scene then
+            -- move ground
             scene.ground:translate(-_Physics.sceneSpeed, 0)
             
+            -- move ground objects
             for k, object in pairs(scene.obstacles) do
                 object:translate(-_Physics.sceneSpeed, 0)
             end

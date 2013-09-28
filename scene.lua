@@ -15,12 +15,19 @@ function Scene:createScene(initX)
     _Physics.addBody(ground, "static", {density = 1.0, friction = 0.3, bounce = 0.01})
     scene.ground = ground
     
-    -- add random box
+    -- add random placeholder box
     local x = display.newRect(initX + 200, display.contentHeight - GROUND_HEIGHT - 100, 300, 100)
     x:setFillColor(0, 255, 0)
     _Physics.addBody(x, "static", {density = 1.0, friction = 0.3, bounce = 0.01})
     scene:insert(x)
     table.insert(scene.obstacles, x)
+    
+    -- add random crate
+    local crate = display.newImage( "images/crate_plain.png" )
+    crate.x = initX + 300
+    crate.y = display.contentHeight - GROUND_HEIGHT - 120
+    scene:insert(crate)
+    table.insert(scene.obstacles, crate)
     
     return scene
 end
