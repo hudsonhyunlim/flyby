@@ -38,7 +38,6 @@ Runtime:addEventListener( "collision", onCollision )
 
 -- ----------------------------
 local SCENE_BUFFER_SIZE = 3
-local sceneSpeed = -20
 local scenes = {}
 local Scene = require('scene')
 
@@ -62,10 +61,10 @@ local function drawScene()
     end
     for k,scene in pairs(scenes) do
         if scene then
-            scene.ground:translate(sceneSpeed, 0)
+            scene.ground:translate(-_Physics.sceneSpeed, 0)
             
             for k, object in pairs(scene.obstacles) do
-                object:translate(sceneSpeed, 0)
+                object:translate(-_Physics.sceneSpeed, 0)
             end
             
         end
