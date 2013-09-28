@@ -9,8 +9,24 @@
 
 local plane = {}
 -- | VARIABLE DECLARATIONS | --
+local _PlaneSequenceData = {
+ 
+  { name = "planeAnimation",  --name of animation sequence
+    start = 1,  --starting frame index
+    count = 5,  --total number of frames to animate consecutively before stopping or looping
+    time = 200,  --optional, in milliseconds; if not supplied, the sprite is frame-based
+    loopCount = 0,  --optional. 0 (default) repeats forever; a positive integer specifies the number of loops
+    loopDirection = "forward"  --optional, either "forward" (default) or "bounce" which will play forward then backwards through the sequence of frames
+  }  --if defining more sequences, place a comma here and proceed to the next sequence sub-table
+ 
+}
+local _PlaneSheetData = { width=256, height=61, numFrames=5, sheetContentWidth=1280, sheetContentHeight=61 }
+local _PlaneSheet = graphics.newImageSheet( "images/PlayerPlane_animation.png", _PlaneSheetData )
+local _Plane = display.newSprite( _PlaneSheet, _PlaneSequenceData )
+_Plane:play()
+
 local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
-local _Plane = display.newImage( "images/PlayerPlane.png" )	-- The player character object
+--local _Plane = display.newImage( "images/PlayerPlane.png" )	-- The player character object
 local _Ascend = false							-- Is the user currently pressing to fly?
 local _Ceiling = display.newRect(0, -1, display.contentWidth, 1)	-- Prevents plane from returning to its people
 local _Gamestate = require "gamestate"
@@ -61,6 +77,12 @@ local function onCollision(self, event)
             -- remove the crate
             crate.scene:removeCrate(crate)
         end, 1)
+    end
+    
+    if(event.other.id and event.other.id == "ground") then
+        -- dead
+        print('should be dead')
+        _Physics.sceneSpeed = 0
     end
 end
 
