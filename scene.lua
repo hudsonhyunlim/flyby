@@ -36,7 +36,9 @@ function Scene:createScene(initX)
     
     function scene:removeCrate(crate)
         local scene = crate.scene
-        scene:remove(crate)
+        if(crate and scene) then
+            scene:remove(crate)
+        end
         scene.obstacles['crate'] = nil
         
     end
