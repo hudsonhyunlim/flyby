@@ -14,6 +14,9 @@ local _Plane = require "plane"
 local _scenes = {}
 local Scene = require('scene')
 
+-- | SYSTEM SETTINGS | --
+system.setIdleTimer(false)	-- Don't let the screen fall asleep
+
 -- | PHYSICS PRIMER | --
 _Physics.start()	-- Engage Physics
 _Plane.init()		-- Engage Plane
