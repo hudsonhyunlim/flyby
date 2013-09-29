@@ -110,8 +110,9 @@ function monster.init()
 		_Monsters[i]:removeSelf()
 		_Monsters[i] = nil
 	end
-	for i=1, #_MonsterCount do
-		_MonsterCount[i] = 0
+	for key,value in pairs(_MonsterCount) do
+		print("Counted")
+		_MonsterCount[key] = 0
 	end
 end
 
