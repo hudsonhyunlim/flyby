@@ -26,7 +26,8 @@ function Scene:createScene(initX)
     scene:insert(ground)
     _Physics.addBody(ground, "static", {density = 1.0, friction = 0.3, bounce = 0.01})
     scene.ground = ground
-    ground.id = "killer"
+    ground.id = "ground"
+    ground.collisionType = "killer"
     
     -- add random placeholder box
     --[[
@@ -68,7 +69,8 @@ function Scene:createScene(initX)
         _Physics.addBody( mountainShape, "static", mountainPhysicsData:get("mountain") )
         scene:insert(mountainShape)
         scene.obstacles["mountain"] = mountainShape
-        mountainShape.id = "killer" -- practically the same as ground
+        mountainShape.id = "mountain" -- practically the same as ground
+        mountainShape.collisionType = "killer"
     end
     
     return scene
