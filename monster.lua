@@ -18,12 +18,12 @@ local _MonsterCount =	{							-- Count of monsters on screen
 						}
 local _Monsters = {}
 
-local function addMonster(monsterType)
+local function addMonster(monsterType, vMagnitude) -- Monster type is the monster name, vMagnitude is the height
 	local t_monster = display.newImage("images/zepp.png")
 	local physicsData = (require "physicseditor.zepp").physicsData(1.0)
 	_Physics.addBody( t_monster,"static", physicsData:get("zepp") )
 	t_monster.x = (display.contentWidth + (t_monster.width / 2))
-	t_monster.y = 50
+	t_monster.y = 50 + (100 * vMagnitude)
 	t_monster.id = "zepp"
 	t_monster.collisionType = "killer"
 	_MonsterCount[t_monster.id] = _MonsterCount[t_monster.id] + 1
@@ -34,10 +34,11 @@ end
 local function spawnMonster()
 	if _MonsterCount["zepp_recent"] == 0 then
 		if (_MonsterCount["zepp"] == 0) then
-			addMonster("zepp")
+			-- if (math.random(0, 1))
+			addMonster("zepp", math.random(0,2))
 			_MonsterCount["zepp_recent"] = _MonsterCount["zepp_recent"] + 1
 			print("Monster Count".._MonsterCount["zepp_recent"])
-			timer.performWithDelay(5000, function()
+			timer.performWithDelay((1000*math.random(1, 10)), function()
 											_MonsterCount["zepp_recent"] = _MonsterCount["zepp_recent"] - 1
 											print("Monster count: ".._MonsterCount["zepp_recent"])
 											end)
