@@ -20,6 +20,10 @@ local _MonsterCount =	{							-- Count of monsters on screen
 						}
 local _Monsters = {}
 
+local function delayZepp()
+	_MonsterCount["total"] = 0
+end
+
 local function onCollision(self, event) -- Explode the enemies
 	-- print ("Not Explode")
 	if(event.phase == "began") then
@@ -113,6 +117,8 @@ function monster.init()
 	for key,value in pairs(_MonsterCount) do
 		_MonsterCount[key] = 0
 	end
+	_MonsterCount["total"] = 1
+	timer.performWithDelay((1000 * math.random(1,3)), delayZepp)
 end
 
 
