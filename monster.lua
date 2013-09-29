@@ -13,11 +13,12 @@ local monster = {}
 local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
 local _MonsterCount =	{							-- Count of monsters on screen
 							["zepp"] = 0,
+							["zepp_recent"] = 0,
 							["total"] = 0
 						}
 local _Monsters = {}
 
-local function addMonster()
+local function addMonster(monsterType)
 	local t_monster = display.newImage("images/zepp.png")
 	local physicsData = (require "physicseditor.zepp").physicsData(1.0)
 	_Physics.addBody( t_monster,"static", physicsData:get("zepp") )
@@ -30,7 +31,16 @@ local function addMonster()
 end
 
 local function spawnMonster()
-	if _MonsterCount["zepp"] < 2 then
+	if _MonsterCount["zepp_recent"] == 0 then
+		if (_MonsterCount["zepp"] == 0) then
+			addMonster("zepp")
+			_MonsterCount["zepp_recent"] = _MonsterCount["zepp_recent"] + 1
+			print("Monster Count".._MonsterCount["zepp_recent"])
+			timer.performWithDelay(5000, function()
+											_MonsterCount["zepp_recent"] = _MonsterCount["zepp_recent"] - 1
+											print("Monster count: ".._MonsterCount["zepp_recent"])
+											end)
+		end
 	end
 end
 
@@ -59,10 +69,10 @@ function monster.scroll()
 			_Monsters[i]:removeSelf()
 			_Monsters[i] = nil
 		end
-		if _MonsterCount["total"] < 2 then
-			spawnMonster()
-		end
 	end	
+	if _MonsterCount["total"] < 1 then
+		spawnMonster()
+	end
 end
 
 
