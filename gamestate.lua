@@ -1,7 +1,7 @@
 local gamestate = {}
 local Scene = require "scene"
 local MAX_FUEL = 1000
-local FUEL_RATE = 1
+local FUEL_RATE = 1.4
 local SCORE_RATE = 0.01
 local monsters = require "monster"
 local _Audio = require "gameaudio"
@@ -26,8 +26,8 @@ function gamestate:setScore(score)
 end
 
 function gamestate:addFuel()
-    local addedFuel = 100
-    if(gamestate.fuel > 900) then
+    local addedFuel = 400
+    if(gamestate.fuel > 600) then
         addedFuel = MAX_FUEL - gamestate.fuel
     end
     gamestate.fuel = gamestate.fuel + addedFuel
