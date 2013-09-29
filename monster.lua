@@ -110,8 +110,9 @@ function monster.init()
 		_Monsters[i]:removeSelf()
 		_Monsters[i] = nil
 	end
-	for i=1, #_MonsterCount do
-		_MonsterCount[i] = 0
+	for key,value in pairs(_MonsterCount) do
+		print("Counted")
+		_MonsterCount[key] = 0
 	end
 end
 
@@ -128,6 +129,7 @@ function monster.scroll()
 			_Monsters[i] = nil
 		end
 	end	
+	print(_MonsterCount["total"])
 	if _MonsterCount["total"] < 1 then
 		spawnMonster()
 	end
