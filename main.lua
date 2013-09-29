@@ -43,37 +43,8 @@ _Physics.start()	-- Engage Physics
 _Plane.init()		-- Engage Plane
 _Monsters.init()	-- Engage Monsters
 
-local function onCollision( event )
-        if ( event.phase == "began" ) then
- 
-                -- print( "began: " .. event.object1.myName .. " & " .. event.object2.myName )
-				--event.object2:setLinearVelocity( 0, -100)
-        elseif ( event.phase == "ended" ) then
- 
-                -- print( "ended: " .. event.object1.myName .. " & " .. event.object2.myName )
- 
-        end
-end
-
-
-
-
-Runtime:addEventListener( "collision", onCollision )
-
--- Runtime:addEventListener( "tap", handleScreenTap )
-
-
 
 -- ----------------------------
-local SCENE_BUFFER_SIZE = 3
-
-local function destroySceneHandler()
-    --ground:removeSelf()
-end
-
-local function testFunc()
-    print('test')
-end
 
 _Gamestate:initScene()
 
