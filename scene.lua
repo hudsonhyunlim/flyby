@@ -7,7 +7,7 @@ local GROUND_HEIGHT = 40
 -- spawn likelihood
 local spawnchance = {
     mountain = 30,
-    mountain2 = 60,
+    mountain2 = 70,
     crate = 0,
     fuel = 80
 }

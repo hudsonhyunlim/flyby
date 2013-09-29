@@ -3,6 +3,8 @@ local Scene = require "scene"
 local MAX_FUEL = 1000
 local FUEL_RATE = 1.4
 local SCORE_RATE = 0.01
+local FUEL_FLASH_TIME = 600
+local LOW_FUEL_LIMIT = 350
 local monsters = require "monster"
 local _Audio = require "gameaudio"
 
@@ -38,6 +40,11 @@ function gamestate:consumeFuel()
     if(gamestate.isAlive and gamestate:hasFuel()) then
         gamestate.fuel = gamestate.fuel - FUEL_RATE
         gamestate.fuelMeterGroup.needle:rotate(FUEL_RATE/10)
+        if(gamestate.fuel < LOW_FUEL_LIMIT and not gamestate.isLowFuel) then
+            gamestate:lowFuelOn()
+        elseif(gamestate.fuel >= LOW_FUEL_LIMIT and gamestate.isLowFuel) then
+            gamestate:lowFuelOff()
+        end
     end
 end
 
@@ -49,19 +56,31 @@ function gamestate:initNeedle()
     gamestate.fuelMeterGroup.needle:rotate(-(MAX_FUEL - gamestate.fuel)/10)
 end
 
-function gamestate:lowFuelOn()
-    local function alphaOff()
-        transition.to(gamestate.lowFuelIndicator, {time=1000, alpha=0.0, onComplete=alphaOn})
+function gamestate:fuelAlphaOff()
+    print('alphaoff')
+    transition.to(gamestate.lowFuelIndicator, {time=FUEL_FLASH_TIME, alpha=0.0, onComplete=gamestate.fuelAlphaOn})
+end
+
+function gamestate:fuelAlphaOn()
+    print('alphaon')
+    if(gamestate.isLowFuel) then
+        transition.to(gamestate.lowFuelIndicator, {time=FUEL_FLASH_TIME, alpha=0.8, onComplete=gamestate.fuelAlphaOff})
     end
-    gamestate.lowFuelIndicator.alpha = 1.0
+end
+
+function gamestate:lowFuelOn()
+    gamestate.lowFuelIndicator.alpha = 0.0
+    gamestate.isLowFuel = true
+    gamestate:fuelAlphaOn()
 end
 
 function gamestate:lowFuelOff()
+    gamestate.isLowFuel = false
     gamestate.lowFuelIndicator.alpha = 0.0
 end
-
 -- create initial scenes
 function gamestate:initScene()
+    gamestate:lowFuelOff()
     _Audio:setVolume('gameplay', 1.0)
     gamestate.points = 0
     gamestate:setScore(0)
@@ -93,6 +112,7 @@ function gamestate:initScene()
 end
 
 function gamestate:gameOver()
+    gamestate:lowFuelOff()
     _Audio:setVolume('gameplay', 0.4)
     timer.performWithDelay(2000, function()
         --plane.init()
