@@ -31,7 +31,7 @@ local function onCollision(self, event) -- Explode the enemies
             event.target.isAlive = false
             local Explosion = require "explosion"
             Explosion:createExplosion(event.target.x, event.target.y)
-			
+			timer.performWithDelay(1,function() event.target.x = -100 end)
 			
             -- TODO: remove plane physics body as well?
 			if (event.other.id == "crate") then
