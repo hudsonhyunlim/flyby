@@ -2,15 +2,19 @@ local gamestate = {}
 local Scene = require "scene"
 local MAX_FUEL = 1000
 local FUEL_RATE = 1
+local SCORE_RATE = 0.01
 local monsters = require "monster"
+
+gamestate.SPEED_RANGE_FACTOR = 20
+gamestate.SPEED_BASE_FACTOR = 10
 
 gamestate.points = 0
 gamestate.fuel = 500
 gamestate.isAlive = true
 
-function gamestate:addScore()
-    gamestate.points = gamestate.points + 1
-    gamestate:setScore(gamestate.points)
+function gamestate:addScore(sceneSpeed)
+    gamestate.points = gamestate.points + (SCORE_RATE * sceneSpeed)
+    gamestate:setScore(math.floor(gamestate.points))
 end
 
 function gamestate:setScore(score)

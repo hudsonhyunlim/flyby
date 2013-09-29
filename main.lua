@@ -44,11 +44,12 @@ _Gamestate.pointsTallyGroup = display.newGroup()
 _Gamestate.pointsBoard = display.newImage("images/scoreboard.png")
 _Gamestate.pointsTallyGroup:insert(_Gamestate.pointsBoard)
 _Gamestate.pointsDisplay = {}
-for i=1,3,1 do
-    local text = display.newText( "0", 0, 0, "Helvetica", 48 )
+for i=1,5,1 do
+    local text = display.newText( "0", 0, 0, "Helvetica", 36 )
     text:setTextColor(255, 255, 255)
-    text.x = 183 - (i * 47)
-    text.y = 44
+    local factor = 31
+    text.x = 148 + factor - (i * factor)
+    text.y = 28
     table.insert(_Gamestate.pointsDisplay, text)
     _Gamestate.pointsTallyGroup:insert(text)
 end
@@ -133,6 +134,8 @@ local function drawScene()
 	
 	_Gamestate.fuelMeterGroup:toFront()
 	_Gamestate.pointsTallyGroup:toFront()
+	
+	_Gamestate:addScore(_Physics.sceneSpeed)
 	
 	_Gamestate:consumeFuel()
 end

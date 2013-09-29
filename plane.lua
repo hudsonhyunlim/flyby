@@ -8,8 +8,6 @@
 -- 2013-09-27
 
 local plane = {}
-local SPEED_RANGE_FACTOR = 20
-local SPEED_BASE_FACTOR = 10
 -- | VARIABLE DECLARATIONS | --
 local _PlaneSequenceData = {
  
@@ -70,7 +68,7 @@ function _Plane:timer(event)
             _Audio:stopLoop("ascent")
             _Audio:playLoop("descent", {loops=-1})
     	end
-    	_Physics.sceneSpeed = math.floor( ((display.contentHeight - _Plane.y)/display.contentHeight) * SPEED_RANGE_FACTOR ) + SPEED_BASE_FACTOR
+    	_Physics.sceneSpeed = math.floor( ((display.contentHeight - _Plane.y)/display.contentHeight) * _Gamestate.SPEED_RANGE_FACTOR ) + _Gamestate.SPEED_BASE_FACTOR
     	timer.performWithDelay(5, _Plane)
 	end
 end
@@ -93,7 +91,7 @@ local function onCollision(self, event)
             event.other.isHandled = true
             local crate = event.other
             if(event.other.id == "crate_plain") then
-                _Gamestate:addScore()
+                --_Gamestate:addScore()
             else
                 _Gamestate:addFuel()
             end
