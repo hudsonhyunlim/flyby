@@ -46,6 +46,7 @@ function plane.init()
 	_Plane.isFixedRotation = true
 	_Plane.x = 150
 	_Plane.y = 50
+	_Plane.alpha = 1.0
 	_Plane.id = '_Plane'
 	_Plane.isAlive = true
 end
@@ -104,6 +105,22 @@ local function onCollision(self, event)
 				ExplosionOther:createExplosion(event.other.x, event.other.y)
 			end
             _Physics.sceneSpeed = 0
+            timer.performWithDelay(2000, function()
+                --plane.init()
+                local gameover = display.newImage("images/game_over.png")
+                gameover.x = display.contentWidth / 2
+                gameover.y = display.contentHeight / 2
+                gameover:addEventListener('touch', function(event)
+                    if(not gameover.restarting) then
+                        gameover.restarting = true
+                        plane.init()
+                        timer.performWithDelay(5, _Plane)
+                        timer.performWithDelay(1, function()
+                            gameover:removeSelf()
+                        end, 1)
+                    end
+                end)
+            end, 1)
         end
     end
 end
