@@ -48,12 +48,16 @@ function plane.init()
 	_Plane.y = 50
 	_Plane.alpha = 1.0
 	_Plane.id = '_Plane'
-	_Plane.isAlive = true
+	_Gamestate.isAlive = true
 	_Plane:setLinearVelocity(0,0)
+	timer.performWithDelay(5, _Plane)
 end
 
 function _Plane:timer(event)
-    if(_Plane.isAlive) then
+    if(not _Gamestate:hasFuel()) then
+        _Ascend = false
+    end 
+    if(_Gamestate.isAlive) then
     	local vx, vy = _Plane:getLinearVelocity()
     	if _Ascend == true then
     		if vy > -500 then
@@ -66,16 +70,16 @@ function _Plane:timer(event)
 end
 
 local function onTouch( event )
-	if event.phase == "began" then
-		_Ascend = true
-	elseif event.phase == "ended" then
-		_Ascend = false
+    if(_Gamestate:hasFuel()) then
+    	if event.phase == "began" then
+    		_Ascend = true
+    	elseif event.phase == "ended" then
+    		_Ascend = false
+    	end
 	end
 end
 
 Runtime:addEventListener("touch", onTouch)
-
-timer.performWithDelay(5, _Plane)
 
 local function onCollision(self, event)
     if(event.phase == "began") then
@@ -92,11 +96,11 @@ local function onCollision(self, event)
             end, 1)
         end
         
-        if(event.other.id and event.other.collisionType == "killer" and _Plane.isAlive) then
+        if(event.other.id and event.other.collisionType == "killer" and _Gamestate.isAlive) then
             -- dead
             print('should be dead')
             _Plane.alpha = 0.0  -- hide plane
-            _Plane.isAlive = false
+            _Gamestate.isAlive = false
             local Explosion = require "explosion"
             Explosion:createExplosion(_Plane.x, _Plane.y)
             -- TODO: remove plane physics body as well?
@@ -106,6 +110,8 @@ local function onCollision(self, event)
 				ExplosionOther:createExplosion(event.other.x, event.other.y)
 			end
             _Physics.sceneSpeed = 0
+            _Gamestate:gameOver()
+            --[[
             timer.performWithDelay(2000, function()
                 --plane.init()
                 local gameover = display.newImage("images/game_over.png")
@@ -125,6 +131,7 @@ local function onCollision(self, event)
                     end
                 end)
             end, 1)
+            --]]
         end
     end
 end

@@ -19,11 +19,20 @@ _Gamestate._ForeGroundImage = display.newImageRect( 'images/Ground_01.png', 1920
 _Gamestate.pointsDisplay = display.newText( "0", display.contentWidth - 50, 50, "Helvetica", 32 )
 _Gamestate.pointsDisplay:setTextColor(255, 0, 0)
 
+local fuelMeter = display.newImage("images/meter_fuel.png")
+local fuelMeterNeedle = display.newImage("images/meter_fuel_needle.png")
+_Gamestate.fuelMeterGroup = display.newGroup()
+_Gamestate.fuelMeterGroup:insert(fuelMeter)
+_Gamestate.fuelMeterGroup:insert(fuelMeterNeedle)
+_Gamestate.fuelMeterGroup.fuelMeter = fuelMeter
+_Gamestate.fuelMeterGroup.needle = fuelMeterNeedle
+
 local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
 local _Plane = require "plane"
 local _Monsters = require "monster"
 
 _Gamestate.scenes = {}
+_Gamestate.plane = _Plane
 local Scene = require('scene')  -- Scene is a library, not a variable
 
 -- | SYSTEM SETTINGS | --
@@ -102,6 +111,9 @@ local function drawScene()
     _Gamestate._ForeGroundImage:translate(-_Physics.sceneSpeed, 0)
     
 	_Monsters.scroll()
+	
+	_Gamestate.fuelMeterGroup:toFront()
+	_Gamestate:consumeFuel()
 end
 
 timer.performWithDelay(1, drawScene, -1)
