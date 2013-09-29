@@ -128,6 +128,7 @@ function monster.scroll()
 			_Monsters[i] = nil
 		end
 	end	
+	print(_MonsterCount["total"])
 	if _MonsterCount["total"] < 1 then
 		spawnMonster()
 	end
