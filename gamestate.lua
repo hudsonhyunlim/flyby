@@ -14,7 +14,6 @@ function gamestate:addScore()
 end
 
 function gamestate:setScore(score)
-    --gamestate.pointsDisplay.text = "" .. score
     for k,text in pairs(gamestate.pointsDisplay) do
         text.text = "" .. score % 10
         score = math.floor(score / 10)
