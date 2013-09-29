@@ -83,7 +83,7 @@ Runtime:addEventListener("touch", onTouch)
 
 local function onCollision(self, event)
     if(event.phase == "began") then
-        if(event.other.id and event.other.id == "crate" and not event.other.isHandled) then
+        if(event.other.id and event.other.id == "crate_plain" and not event.other.isHandled) then
             event.other.isHandled = true
             local crate = event.other
             _Gamestate:addScore()

@@ -8,11 +8,11 @@ local GROUND_HEIGHT = 40
 local spawnchance = {
     mountain = 50,
     mountain2 = 50,
-    crate = 50
+    crate = 50,
+    fuel = 50
 }
 
 local sceneIndex = 0
-
 
 function Scene:createScene(initX)
     sceneIndex = sceneIndex + 1
@@ -24,6 +24,7 @@ function Scene:createScene(initX)
     local spawnMountain = spawnchance.mountain > math.random(0,100)
     local spawnMountain2 = spawnchance.mountain2 > math.random(0,100)
     local spawnCrate = spawnchance.crate > math.random(0,100)
+    local spawnFuel = spawnchance.fuel > math.random(0,100)
     
     -- add ground
     local ground = display.newRect(initX, display.contentHeight - GROUND_HEIGHT, display.contentWidth, GROUND_HEIGHT)
@@ -45,17 +46,25 @@ function Scene:createScene(initX)
     --]]
     
     -- add random crate
-    if(spawnCrate) then
-        local crate = display.newImage( "images/crate_plain.png" )
+    local function createCrate(crateType)
+        local crate = display.newImage( "images/"..crateType..".png" )
         crate.x = initX + math.random(25, 960-25)
         crate.y = display.contentHeight - GROUND_HEIGHT - 100
-        crate.id = "crate"
+        crate.id = crateType
         _Physics.addBody(crate, "dynamic", {density = 0.01, friction = 0.01, bounce = 0.01})
         scene:insert(crate)
-        scene.obstacles["crate"] = crate
+        scene.obstacles[crateType] = crate
         -- reverse pointer back to scene
         crate.scene = scene
         crate.sceneIndex = sceneIndex
+    end
+    
+    if(spawnCrate) then
+        createCrate('crate_plain')
+    end
+    
+    if(spawnFuel) then
+        createCrate('crate_fuel')
     end
     
     function scene:removeCrate(crate)
@@ -63,7 +72,7 @@ function Scene:createScene(initX)
         local scene = crate.scene
         if(scene and crate) then
             crate:removeSelf()
-            scene.obstacles["crate"] = nil
+            scene.obstacles[crate.id] = nil
         end
         
     end
