@@ -65,7 +65,7 @@ function Scene:createScene(initX)
         local mountainPhysicsData = (require "physicseditor.mountain").physicsData(1.0)
         local mountainShape = display.newImage("images/Mountain_02.png")
         mountainShape.x = initX + math.random(256, 960-256)
-        mountainShape.y = display.contentHeight - GROUND_HEIGHT - 100
+        mountainShape.y = display.contentHeight - GROUND_HEIGHT - 98
         _Physics.addBody( mountainShape, "static", mountainPhysicsData:get("mountain") )
         scene:insert(mountainShape)
         scene.obstacles["mountain"] = mountainShape

@@ -34,7 +34,10 @@ local _Gamestate = require "gamestate"
 
 function plane.init()
 	-- | PHYSICS PRIMER | --
-	_Physics.addBody(_Plane, {density = 1.0, friction = 0.8, bounce = 0.01}) -- Add the plane to physics engine
+    local planePhysicsData = (require "physicseditor.plane").physicsData(1.0)
+    _Physics.addBody(_Plane, planePhysicsData:get("PlayerPlane_isolated") )
+
+--	_Physics.addBody(_Plane, {density = 1.0, friction = 0.8, bounce = 0.01}) -- Add the plane to physics engine
 	_Physics.addBody(_Ceiling, "static", {density = 1.0, friction = 0.3, bounce = 0.01}) -- Ceiling to prevent plane from flying to its people
 
 	-- | PLANE PHYSICS | --
