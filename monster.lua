@@ -31,7 +31,7 @@ local function onCollision(self, event) -- Explode the enemies
             event.target.isAlive = false
             local Explosion = require "explosion"
             Explosion:createExplosion(event.target.x, event.target.y)
-			
+			timer.performWithDelay(1,function() event.target.x = -100 end)
 			
             -- TODO: remove plane physics body as well?
 			if (event.other.id == "crate") then
@@ -106,16 +106,13 @@ end
 
 
 function monster.init()
-	--[[local t_monster = display.newImage("images/zepp.png")
-	local physicsData = (require "physicseditor.zepp").physicsData(1.0)
-	_Physics.addBody( t_monster,"static", physicsData:get("zepp") )
-	t_monster.x = (display.contentWidth + (t_monster.width / 2))
-	t_monster.y = 50
-	t_monster.id = "zepp"
-	_MonsterCount[t_monster.id] = _MonsterCount[t_monster.id] + 1
-	_MonsterCount["total"] = _MonsterCount["total"]  + 1
-	table.insert(_Monsters, t_monster)
-	--]]
+	for i=1, #_Monsters do
+		_Monsters[i]:removeSelf()
+		_Monsters[i] = nil
+	end
+	for i=1, #_MonsterCounter
+		_MonsterCounter[i] = 0
+	end
 end
 
 
