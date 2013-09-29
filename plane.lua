@@ -113,6 +113,7 @@ local function onCollision(self, event)
             -- stop audio
             _Audio:stopLoop('ascent')
             _Audio:stopLoop('descent')
+            _Audio:playOnce('crash')
             
             _Plane.alpha = 0.0  -- hide plane
             _Gamestate.isAlive = false
@@ -126,27 +127,6 @@ local function onCollision(self, event)
 			end
             _Physics.sceneSpeed = 0
             _Gamestate:gameOver()
-            --[[
-            timer.performWithDelay(2000, function()
-                --plane.init()
-                local gameover = display.newImage("images/game_over.png")
-                gameover.x = display.contentWidth / 2
-                gameover.y = display.contentHeight / 2
-                gameover:addEventListener('touch', function(event)
-                    if(not gameover.restarting) then
-                        gameover.restarting = true
-                        plane.init()
-                        local monsters = require "monster"
-                        monsters.init()
-                        _Gamestate:initScene()
-                        timer.performWithDelay(5, _Plane)
-                        timer.performWithDelay(1, function()
-                            gameover:removeSelf()
-                        end, 1)
-                    end
-                end)
-            end, 1)
-            --]]
         end
     end
 end

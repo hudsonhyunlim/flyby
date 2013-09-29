@@ -60,6 +60,9 @@ function gamestate:initScene()
     gamestate._StaticBackground.x = display.contentWidth/2
     gamestate._StaticBackground.y = display.contentHeight/2
     
+    gamestate._BackGroundImage.x = display.contentWidth
+    gamestate._BackGroundImage.y = display.contentHeight - 95
+    
     gamestate._ForeGroundImage.x = display.contentWidth
     gamestate._ForeGroundImage.y = display.contentHeight - 35
 

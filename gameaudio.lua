@@ -5,6 +5,7 @@ local channelMap = {}
 function GameAudio:init()
     GameAudio['descent'] = audio.loadSound("soundeffects/planesounds/descent.mp3")
     GameAudio['ascent'] = audio.loadSound("soundeffects/planesounds/ascent.mp3")
+    GameAudio['crash'] = audio.loadSound("soundeffects/planesounds/crash.mp3")
 end
 
 function GameAudio:playLoop(file, options)
@@ -18,6 +19,10 @@ function GameAudio:stopLoop(file)
         audio.stop(channelMap[file])
         channelMap[file] = nil
     end
+end
+
+function GameAudio:playOnce(file, options)
+    audio.play(GameAudio[file], options)
 end
 
 return GameAudio

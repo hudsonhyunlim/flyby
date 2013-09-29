@@ -14,6 +14,26 @@ display.setStatusBar( display.HiddenStatusBar )
 local _Gamestate = require "gamestate"
 _Gamestate._StaticBackground = display.newImageRect('images/Background_02_sky.png', 960, 640)
 
+-- create some random cloud --
+_Gamestate.cloudGroup = display.newGroup()
+local function createRandomCloud(initX)
+    local cloudId = math.random(1,2)
+    local cloud
+    if(cloudId == 1) then
+        cloud = display.newImageRect(_Gamestate.cloudGroup, 'images/cloud_01.png', 103, 61)
+    else
+        cloud = display.newImageRect(_Gamestate.cloudGroup, 'images/cloud_02.png', 155, 48)
+    end
+    cloud.x = math.random(0 + initX, 0 + initX + display.contentWidth)
+    cloud.y = math.random(0, display.contentHeight) 
+    return cloud
+end
+
+for i=1,10,1 do
+    createRandomCloud(0)
+end
+
+_Gamestate._BackGroundImage = display.newImageRect( 'images/Background_01.png', 1920, 96 )
 _Gamestate._ForeGroundImage = display.newImageRect( 'images/Ground_01.png', 1920, 69 )
 
 local function createPointText()
@@ -90,9 +110,25 @@ local function drawScene()
         end
     end
     
+    if(_Gamestate._BackGroundImage.x < -display.contentWidth) then
+        _Gamestate._BackGroundImage.x = display.contentWidth * 2
+    end
+    
     -- move foreground
     _Gamestate._ForeGroundImage:translate(-_Physics.sceneSpeed, 0)
-    
+    _Gamestate._BackGroundImage:translate(-_Physics.sceneSpeed/10, 0)
+--    _Gamestate.cloudGroup:translate(-_Physics.sceneSpeed/20, 0)
+    for i=1,_Gamestate.cloudGroup.numChildren,1 do
+        local c = _Gamestate.cloudGroup[i]
+        if(c) then
+            if(c.x < -100) then
+                _Gamestate.cloudGroup:remove(c)
+                createRandomCloud(display.contentWidth)
+            else
+                c:translate(-_Physics.sceneSpeed/20, 0)
+            end
+        end
+    end
 	_Monsters.scroll()
 	
 	_Gamestate.fuelMeterGroup:toFront()
@@ -114,9 +150,12 @@ end
 local _TitleCard = display.newImageRect('images/startscreen.png', 960, 640)
 _TitleCard.x = display.contentWidth/2
 _TitleCard.y = display.contentHeight/2
-_TitleCard:addEventListener('touch', function()
-    timer.performWithDelay(1, function()
-        _TitleCard:removeSelf()
-        startGame()
-    end, 1)
+_TitleCard:addEventListener('touch', function(event)
+    if(not event.target.isTouched) then
+        event.target.isTouched = true
+        timer.performWithDelay(1, function()
+            _TitleCard:removeSelf()
+            startGame()
+        end, 1)
+    end
 end)
