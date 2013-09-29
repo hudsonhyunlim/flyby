@@ -15,14 +15,16 @@ local _ExplosionSheetData = { width=220, height=220, numFrames=7, sheetContentWi
 local _ExplosionSheet = graphics.newImageSheet( "images/explosion_plane_sprite.png", _ExplosionSheetData )
 local _Explosion = display.newSprite( _ExplosionSheet, _ExplosionSequenceData )
 
-local function removeExplosion()
-    _Explosion:removeSelf()
+local function removeExplosion(event)
+    if(event.phase == "ended") then
+        _Explosion:removeSelf()
+    end
 end
 
 function Explosion:createExplosion(x, y)
     _Explosion.x = x
     _Explosion.y = y
-    _Explosion:addEventListener( "ended", removeExplosion )
+    _Explosion:addEventListener( "sprite", removeExplosion )
     _Explosion:play()
     
 end
