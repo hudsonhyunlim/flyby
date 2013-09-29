@@ -5,12 +5,17 @@ gamestate.points = 0
 
 function gamestate:addScore()
     gamestate.points = gamestate.points + 1
-    gamestate.pointsDisplay.text = "" .. gamestate.points
+    gamestate:setScore(gamestate.points)
+end
+
+function gamestate:setScore(score)
+    gamestate.pointsDisplay.text = "" .. score
 end
 
 -- create initial scenes
 function gamestate:initScene()
     gamestate.points = 0
+    gamestate:setScore(0)
     gamestate._StaticBackground.x = display.contentWidth/2
     gamestate._StaticBackground.y = display.contentHeight/2
     
