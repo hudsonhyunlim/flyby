@@ -73,26 +73,30 @@ Runtime:addEventListener("touch", onTouch)
 timer.performWithDelay(5, _Plane)
 
 local function onCollision(self, event)
-    if(event.other.id and event.other.id == "crate") then
-        _Gamestate:addScore()
+    if(event.phase == "began") then
+        if(event.other.id and event.other.id == "crate" and not event.other.isHandled) then
+            event.other.isHandled = true
+            local crate = event.other
+            _Gamestate:addScore()
+            
+            -- remove and clean off crate from game
+            local crate = event.other
+            timer.performWithDelay(1, function()
+                -- remove the crate
+                crate.scene:removeCrate(crate)
+            end, 1)
+        end
         
-        -- remove and clean off crate from game
-        local crate = event.other
-        timer.performWithDelay(1, function()
-            -- remove the crate
-            crate.scene:removeCrate(crate)
-        end, 1)
-    end
-    
-    if(event.other.id and event.other.collisionType == "killer" and _Plane.isAlive) then
-        -- dead
-        print('should be dead')
-        _Plane.alpha = 0.0  -- hide plane
-        _Plane.isAlive = false
-        local Explosion = require "explosion"
-        Explosion:createExplosion(_Plane.x, _Plane.y)
-        -- TODO: remove plane physics body as well?
-        _Physics.sceneSpeed = 0
+        if(event.other.id and event.other.collisionType == "killer" and _Plane.isAlive) then
+            -- dead
+            print('should be dead')
+            _Plane.alpha = 0.0  -- hide plane
+            _Plane.isAlive = false
+            local Explosion = require "explosion"
+            Explosion:createExplosion(_Plane.x, _Plane.y)
+            -- TODO: remove plane physics body as well?
+            _Physics.sceneSpeed = 0
+        end
     end
 end
 

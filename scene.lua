@@ -10,8 +10,12 @@ local spawnchance = {
     crate = 50
 }
 
+local sceneIndex = 0
+
 
 function Scene:createScene(initX)
+    sceneIndex = sceneIndex + 1
+
     local scene = display.newGroup()
     scene.obstacles = {}
     
@@ -49,14 +53,16 @@ function Scene:createScene(initX)
         scene.obstacles["crate"] = crate
         -- reverse pointer back to scene
         crate.scene = scene
+        crate.sceneIndex = sceneIndex
     end
     
     function scene:removeCrate(crate)
+        print('removing')
         local scene = crate.scene
-        if(crate and scene) then
+        if(scene and crate) then
             crate:removeSelf()
+            scene.obstacles["crate"] = nil
         end
-        scene.obstacles["crate"] = nil
         
     end
     
