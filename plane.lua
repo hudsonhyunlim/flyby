@@ -83,10 +83,14 @@ Runtime:addEventListener("touch", onTouch)
 
 local function onCollision(self, event)
     if(event.phase == "began") then
-        if(event.other.id and event.other.id == "crate_plain" and not event.other.isHandled) then
+        if(event.other.id and (event.other.id == "crate_plain" or event.other.id == "crate_fuel") and not event.other.isHandled) then
             event.other.isHandled = true
             local crate = event.other
-            _Gamestate:addScore()
+            if(event.other.id == "crate_plain") then
+                _Gamestate:addScore()
+            else
+                _Gamestate:addFuel()
+            end
             
             -- remove and clean off crate from game
             local crate = event.other
