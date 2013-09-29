@@ -64,6 +64,11 @@ _Gamestate.fuelMeterGroup:insert(fuelMeterNeedle)
 _Gamestate.fuelMeterGroup.fuelMeter = fuelMeter
 _Gamestate.fuelMeterGroup.needle = fuelMeterNeedle
 
+_Gamestate.lowFuelIndicator = display.newImage("images/lowfuel_text.png")
+_Gamestate.lowFuelIndicator.x = display.contentWidth/2
+_Gamestate.lowFuelIndicator.y = 50
+_Gamestate:lowFuelOff()
+
 local _Audio = require "gameaudio"
 local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
 local _Plane = require "plane"
@@ -132,6 +137,7 @@ local function drawScene()
     end
 	_Monsters.scroll()
 	
+	_Gamestate.lowFuelIndicator:toFront()
 	_Gamestate.fuelMeterGroup:toFront()
 	_Gamestate.pointsTallyGroup:toFront()
 	

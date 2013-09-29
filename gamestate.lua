@@ -49,6 +49,17 @@ function gamestate:initNeedle()
     gamestate.fuelMeterGroup.needle:rotate(-(MAX_FUEL - gamestate.fuel)/10)
 end
 
+function gamestate:lowFuelOn()
+    local function alphaOff()
+        transition.to(gamestate.lowFuelIndicator, {time=1000, alpha=0.0, onComplete=alphaOn})
+    end
+    gamestate.lowFuelIndicator.alpha = 1.0
+end
+
+function gamestate:lowFuelOff()
+    gamestate.lowFuelIndicator.alpha = 0.0
+end
+
 -- create initial scenes
 function gamestate:initScene()
     _Audio:setVolume('gameplay', 1.0)
