@@ -49,8 +49,8 @@ function gamestate:initScene()
     gamestate.points = 0
     gamestate:setScore(0)
     
-    gamestate.fuelMeterGroup.x = 0
-    gamestate.fuelMeterGroup.y = display.contentHeight - (gamestate.fuelMeterGroup.fuelMeter.height)
+    gamestate.fuelMeterGroup.x = -gamestate.fuelMeterGroup.fuelMeter.width / 2
+    gamestate.fuelMeterGroup.y = display.contentHeight - (gamestate.fuelMeterGroup.fuelMeter.height) - 10
     gamestate.fuelMeterGroup.needle.y = 80
     gamestate.fuelMeterGroup.needle.xReference = -20
     gamestate:initNeedle()
