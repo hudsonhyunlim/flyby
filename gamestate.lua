@@ -28,6 +28,7 @@ function gamestate:setScore(score)
 end
 
 function gamestate:addFuel()
+    _Audio:playOnce('fuel')
     local addedFuel = 400
     if(gamestate.fuel > 600) then
         addedFuel = MAX_FUEL - gamestate.fuel
@@ -81,7 +82,7 @@ end
 -- create initial scenes
 function gamestate:initScene()
     gamestate:lowFuelOff()
-    _Audio:setVolume('gameplay', 1.0)
+    _Audio:setVolume('gameplay', 0.5)
     gamestate.points = 0
     gamestate:setScore(0)
     
@@ -113,7 +114,7 @@ end
 
 function gamestate:gameOver()
     gamestate:lowFuelOff()
-    _Audio:setVolume('gameplay', 0.4)
+    _Audio:setVolume('gameplay', 0.2)
     timer.performWithDelay(2000, function()
         --plane.init()
         local gameover = display.newImage("images/game_over.png")
