@@ -21,12 +21,12 @@ local _MonsterCount =	{							-- Count of monsters on screen
 local _Monsters = {}
 
 local function onCollision(self, event) -- Explode the enemies
-	print ("Not Explode")
+	-- print ("Not Explode")
 	if(event.phase == "began") then
-		print ("Explode Begin")
+		-- print ("Explode Begin")
 		if(event.other.id and event.other.collisionType == "killer") then
             -- dead
-            print ("Explode")
+            -- print ("Explode")
             event.target.alpha = 0.0  -- hide plane
             event.target.isAlive = false
             local Explosion = require "explosion"
@@ -81,10 +81,10 @@ local function spawnMonster()
 				-- if (math.random(0, 1))
 				addMonster("zepp", math.random(0,2))
 				_MonsterCount["zepp_recent"] = _MonsterCount["zepp_recent"] + 1
-				print("Monster Count".._MonsterCount["zepp_recent"])
+				-- print("Monster Count".._MonsterCount["zepp_recent"])
 				timer.performWithDelay((1000*math.random(1, 10)), function()
 												_MonsterCount["zepp_recent"] = _MonsterCount["zepp_recent"] - 1
-												print("Monster count: ".._MonsterCount["zepp_recent"])
+												-- print("Monster count: ".._MonsterCount["zepp_recent"])
 												end)
 			end
 		end
@@ -94,10 +94,10 @@ local function spawnMonster()
 				-- if (math.random(0, 1))
 				addMonster("zepp_fall", math.random(0,2))
 				_MonsterCount["zepp_fall_recent"] = _MonsterCount["zepp_fall_recent"] + 1
-				print("ZeppFall Count".._MonsterCount["zepp_fall_recent"])
+				-- print("ZeppFall Count".._MonsterCount["zepp_fall_recent"])
 				timer.performWithDelay((1000*math.random(1, 10)), function()
 												_MonsterCount["zepp_fall_recent"] = _MonsterCount["zepp_fall_recent"] - 1
-												print("ZeppFall count: ".._MonsterCount["zepp_fall_recent"])
+												-- print("ZeppFall count: ".._MonsterCount["zepp_fall_recent"])
 												end)
 			end
 		end
@@ -111,7 +111,6 @@ function monster.init()
 		_Monsters[i] = nil
 	end
 	for key,value in pairs(_MonsterCount) do
-		print("Counted")
 		_MonsterCount[key] = 0
 	end
 end
@@ -121,15 +120,15 @@ function monster.scroll()
 	for i=1, #_Monsters do
 		_Monsters[i]:translate(-_Physics.sceneSpeed, 0)
 		if (_Monsters[i].x + (_Monsters[i].width / 2)) < 0 then
-			print(_MonsterCount[_Monsters[i].id])
+			-- print(_MonsterCount[_Monsters[i].id])
 			_MonsterCount[_Monsters[i].id] = _MonsterCount[_Monsters[i].id] - 1
-			print(_MonsterCount[_Monsters[i].id])
+			-- print(_MonsterCount[_Monsters[i].id])
 			_MonsterCount["total"] = _MonsterCount["total"] - 1
 			_Monsters[i]:removeSelf()
 			_Monsters[i] = nil
 		end
 	end	
-	print(_MonsterCount["total"])
+	-- print(_MonsterCount["total"])
 	if _MonsterCount["total"] < 1 then
 		spawnMonster()
 	end
