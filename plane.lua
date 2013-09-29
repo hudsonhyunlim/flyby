@@ -8,6 +8,8 @@
 -- 2013-09-27
 
 local plane = {}
+local SPEED_RANGE_FACTOR = 20
+local SPEED_BASE_FACTOR = 10
 -- | VARIABLE DECLARATIONS | --
 local _PlaneSequenceData = {
  
@@ -56,6 +58,7 @@ function _Plane:timer(event)
     			_Plane:applyForce(0, -1000, 0, 0)
     		end
     	end
+    	_Physics.sceneSpeed = math.floor( ((display.contentHeight - _Plane.y)/display.contentHeight) * SPEED_RANGE_FACTOR ) + SPEED_BASE_FACTOR
     	timer.performWithDelay(5, _Plane)
 	end
 end
