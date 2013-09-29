@@ -6,6 +6,8 @@ function GameAudio:init()
     GameAudio['descent'] = audio.loadSound("soundeffects/planesounds/descent.mp3")
     GameAudio['ascent'] = audio.loadSound("soundeffects/planesounds/ascent.mp3")
     GameAudio['crash'] = audio.loadSound("soundeffects/planesounds/crash.mp3")
+    GameAudio['opening'] = audio.loadSound("soundeffects/background/opening.mp3")
+    GameAudio['gameplay'] = audio.loadSound("soundeffects/background/gameplay.mp3")
 end
 
 function GameAudio:playLoop(file, options)

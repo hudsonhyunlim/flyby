@@ -150,12 +150,14 @@ local function startGame()
 end
 
 -- start screen
+_Audio:playLoop('opening', {loops=-1})
 local _TitleCard = display.newImageRect('images/startscreen.png', display.contentWidth, display.contentHeight)
 _TitleCard.x = display.contentWidth/2
 _TitleCard.y = display.contentHeight/2
 _TitleCard:addEventListener('touch', function(event)
     if(not event.target.isTouched) then
         event.target.isTouched = true
+        _Audio:stopLoop('opening')
         timer.performWithDelay(1, function()
             _TitleCard:removeSelf()
             startGame()
