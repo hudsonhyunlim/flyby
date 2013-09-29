@@ -54,15 +54,8 @@ local Scene = require('scene')  -- Scene is a library, not a variable
 -- | SYSTEM SETTINGS | --
 system.setIdleTimer(false)	-- Don't let the screen fall asleep
 
--- | PHYSICS PRIMER | --
-_Physics.start()	-- Engage Physics
-_Plane.init()		-- Engage Plane
-_Monsters.init()	-- Engage Monsters
-
 
 -- ----------------------------
-
-_Gamestate:initScene()
 
 local function drawScene()
     if(table.getn(_Gamestate.scenes) < 1) then
@@ -105,4 +98,22 @@ local function drawScene()
 	_Gamestate:consumeFuel()
 end
 
-timer.performWithDelay(1, drawScene, -1)
+local function startGame()
+    -- | PHYSICS PRIMER | --
+    _Physics.start()	-- Engage Physics
+    _Plane.init()		-- Engage Plane
+    _Monsters.init()	-- Engage Monsters
+    _Gamestate:initScene()
+    timer.performWithDelay(1, drawScene, -1)
+end
+
+-- start screen
+local _TitleCard = display.newImageRect('images/startscreen.png', 960, 640)
+_TitleCard.x = display.contentWidth/2
+_TitleCard.y = display.contentHeight/2
+_TitleCard:addEventListener('touch', function()
+    timer.performWithDelay(1, function()
+        _TitleCard:removeSelf()
+        startGame()
+    end, 1)
+end)
