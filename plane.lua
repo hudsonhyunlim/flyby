@@ -117,6 +117,7 @@ local function onCollision(self, event)
                         plane.init()
                         local monsters = require "monster"
                         monsters.init()
+                        _Gamestate:initScene()
                         timer.performWithDelay(5, _Plane)
                         timer.performWithDelay(1, function()
                             gameover:removeSelf()

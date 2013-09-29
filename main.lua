@@ -11,21 +11,16 @@
 display.setStatusBar( display.HiddenStatusBar )
 
 -- | VARIABLE DECLARATIONS | --
-local _StaticBackground = display.newImageRect('images/Background_02_sky.png', 960, 640)
-_StaticBackground.x = display.contentWidth/2
-_StaticBackground.y = display.contentHeight/2
-
-local _ForeGroundImage = display.newImageRect( 'images/Ground_01.png', 1920, 69 )
-_ForeGroundImage.x = display.contentWidth
-_ForeGroundImage.y = display.contentHeight - 35
-
 local _Gamestate = require "gamestate"
+_Gamestate._StaticBackground = display.newImageRect('images/Background_02_sky.png', 960, 640)
+
+_Gamestate._ForeGroundImage = display.newImageRect( 'images/Ground_01.png', 1920, 69 )
 
 local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
 local _Plane = require "plane"
 local _Monsters = require "monster"
 
-local _scenes = {}
+_Gamestate.scenes = {}
 local Scene = require('scene')  -- Scene is a library, not a variable
 
 -- | SYSTEM SETTINGS | --
@@ -68,24 +63,25 @@ local function testFunc()
     print('test')
 end
 
--- create initial scenes
-table.insert(_scenes, Scene:createScene(0))
-table.insert(_scenes, Scene:createScene(display.contentWidth))
+_Gamestate:initScene()
 
 local function drawScene()
-    local offset = math.floor( (display.contentWidth/2) + _scenes[1].ground.x )
+    if(table.getn(_Gamestate.scenes) < 1) then
+        return
+    end
+    local offset = math.floor( (display.contentWidth/2) + _Gamestate.scenes[1].ground.x )
     
     if(offset <= _Physics.sceneSpeed) then
         -- remove scene
-        local scene = table.remove(_scenes, 1)
+        local scene = table.remove(_Gamestate.scenes, 1)
         scene:removeSelf()
         
         -- add new scene off screen to right
-        table.insert(_scenes, Scene:createScene(display.contentWidth + offset ))
+        table.insert(_Gamestate.scenes, Scene:createScene(display.contentWidth + offset ))
         
-        _ForeGroundImage.x = display.contentWidth + offset
+        _Gamestate._ForeGroundImage.x = display.contentWidth + offset
     end
-    for k,scene in pairs(_scenes) do
+    for k,scene in pairs(_Gamestate.scenes) do
         if scene then
             -- move ground
             scene.ground:translate(-_Physics.sceneSpeed, 0)
@@ -100,7 +96,7 @@ local function drawScene()
     end
     
     -- move foreground
-    _ForeGroundImage:translate(-_Physics.sceneSpeed, 0)
+    _Gamestate._ForeGroundImage:translate(-_Physics.sceneSpeed, 0)
     
 	_Monsters.scroll()
 end
