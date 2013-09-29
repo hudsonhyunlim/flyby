@@ -6,7 +6,8 @@ local GROUND_HEIGHT = 40
 
 -- spawn likelihood
 local spawnchance = {
-    mountain = 80,
+    mountain = 50,
+    mountain2 = 50,
     crate = 50
 }
 
@@ -21,6 +22,7 @@ function Scene:createScene(initX)
     
     -- decide spawn
     local spawnMountain = spawnchance.mountain > math.random(0,100)
+    local spawnMountain2 = spawnchance.mountain2 > math.random(0,100)
     local spawnCrate = spawnchance.crate > math.random(0,100)
     
     -- add ground
@@ -77,6 +79,19 @@ function Scene:createScene(initX)
         scene.obstacles["mountain"] = mountainShape
         mountainShape.id = "mountain" -- practically the same as ground
         mountainShape.collisionType = "killer"
+    end
+    
+    -- add random mountain
+    if(spawnMountain2) then
+        local mountainPhysicsData2 = (require "physicseditor.mountain2").physicsData(1.0)
+        local mountainShape2 = display.newImage("images/Mountain_01.png")
+        mountainShape2.x = initX + math.random(256, 960-256)
+        mountainShape2.y = display.contentHeight - GROUND_HEIGHT - 65
+        _Physics.addBody( mountainShape2, "static", mountainPhysicsData2:get("Mountain_01") )
+        scene:insert(mountainShape2)
+        scene.obstacles["mountain2"] = mountainShape2
+        mountainShape2.id = "mountain2" -- practically the same as ground
+        mountainShape2.collisionType = "killer"
     end
     
     return scene
