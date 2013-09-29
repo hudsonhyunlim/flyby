@@ -4,6 +4,7 @@ local MAX_FUEL = 1000
 local FUEL_RATE = 1
 local SCORE_RATE = 0.01
 local monsters = require "monster"
+local _Audio = require "gameaudio"
 
 gamestate.SPEED_RANGE_FACTOR = 20
 gamestate.SPEED_BASE_FACTOR = 10
@@ -50,6 +51,7 @@ end
 
 -- create initial scenes
 function gamestate:initScene()
+    _Audio:setVolume('gameplay', 1.0)
     gamestate.points = 0
     gamestate:setScore(0)
     
@@ -80,6 +82,7 @@ function gamestate:initScene()
 end
 
 function gamestate:gameOver()
+    _Audio:setVolume('gameplay', 0.4)
     timer.performWithDelay(2000, function()
         --plane.init()
         local gameover = display.newImage("images/game_over.png")

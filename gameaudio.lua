@@ -23,6 +23,10 @@ function GameAudio:stopLoop(file)
     end
 end
 
+function GameAudio:setVolume(file, volume)
+    audio.setVolume(volume, {channel=channelMap[file]})
+end
+
 function GameAudio:playOnce(file, options)
     audio.play(GameAudio[file], options)
 end

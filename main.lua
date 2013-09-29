@@ -141,6 +141,7 @@ local function drawScene()
 end
 
 local function startGame()
+    _Audio:playLoop('gameplay', {loops=-1})
     -- | PHYSICS PRIMER | --
     _Physics.start()	-- Engage Physics
     _Plane.init()		-- Engage Plane
