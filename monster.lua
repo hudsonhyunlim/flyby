@@ -62,7 +62,7 @@ local function addMonster(monsterType, vMagnitude) -- Monster type is the monste
 		_MonsterCount["total"] = _MonsterCount["total"]  + 1
 		table.insert(_Monsters, t_monster)
 	elseif (monsterType == "zepp_fall") then
-		local t_monster = display.newImage("images/zepp.png")
+		local t_monster = display.newImage("images/falling_zepp.png")
 		local physicsData = (require "physicseditor.zepp").physicsData(1.0)
 		_Physics.addBody( t_monster, physicsData:get("zepp") )
 		t_monster.x = (display.contentWidth + (t_monster.width / 2))
