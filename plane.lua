@@ -39,7 +39,7 @@ function plane.init()
 
 	-- | PLANE PHYSICS | --
 	_Plane.isFixedRotation = true
-	_Plane.x = display.contentWidth / 2
+	_Plane.x = 150
 	_Plane.y = 50
 	_Plane.id = '_Plane'
 	_Plane.isAlive = true
