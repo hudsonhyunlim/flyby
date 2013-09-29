@@ -1,8 +1,12 @@
 local Scene = {}
-local _Physics = require('gamephysics')
+local _Physics = require("gamephysics")
 
 -- constants
 local GROUND_HEIGHT = 40
+
+local function createMountain(initX)
+    
+end
 
 function Scene:createScene(initX)
     local scene = display.newGroup()
@@ -15,14 +19,16 @@ function Scene:createScene(initX)
     scene:insert(ground)
     _Physics.addBody(ground, "static", {density = 1.0, friction = 0.3, bounce = 0.01})
     scene.ground = ground
-    ground.id = "ground"
+    ground.id = "killer"
     
     -- add random placeholder box
+    --[[
     local x = display.newRect(initX + 200, display.contentHeight - GROUND_HEIGHT - 100, 300, 100)
     x:setFillColor(0, 255, 0)
     _Physics.addBody(x, "static", {density = 1.0, friction = 0.3, bounce = 0.01})
     scene:insert(x)
     table.insert(scene.obstacles, x)
+    --]]
     
     -- add random crate
     local crate = display.newImage( "images/crate_plain.png" )
@@ -31,7 +37,7 @@ function Scene:createScene(initX)
     crate.id = "crate"
     _Physics.addBody(crate, "dynamic", {density = 0.01, friction = 0.01, bounce = 0.01})
     scene:insert(crate)
-    scene.obstacles['crate'] = crate
+    scene.obstacles["crate"] = crate
     -- reverse pointer back to scene
     crate.scene = scene
     
@@ -40,9 +46,19 @@ function Scene:createScene(initX)
         if(crate and scene) then
             crate:removeSelf()
         end
-        scene.obstacles['crate'] = nil
+        scene.obstacles["crate"] = nil
         
     end
+    
+    -- add random mountain
+    local mountainPhysicsData = (require "physicseditor.mountain").physicsData(1.0)
+    local mountainShape = display.newImage("images/Mountain_02.png")
+    mountainShape.x = initX + 500
+    mountainShape.y = display.contentHeight - GROUND_HEIGHT - 100
+    _Physics.addBody( mountainShape, "static", mountainPhysicsData:get("mountain") )
+    scene:insert(mountainShape)
+    scene.obstacles["mountain"] = mountainShape
+    mountainShape.id = "killer" -- practically the same as ground
     
     return scene
 end

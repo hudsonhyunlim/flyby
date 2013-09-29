@@ -81,7 +81,7 @@ local function onCollision(self, event)
         end, 1)
     end
     
-    if(event.other.id and event.other.id == "ground" and _Plane.isAlive) then
+    if(event.other.id and event.other.id == "killer" and _Plane.isAlive) then
         -- dead
         print('should be dead')
         _Plane.alpha = 0.0  -- hide plane
