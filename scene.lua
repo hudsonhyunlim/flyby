@@ -4,13 +4,20 @@ local _Physics = require("gamephysics")
 -- constants
 local GROUND_HEIGHT = 40
 
-local function createMountain(initX)
-    
-end
+-- spawn likelihood
+local spawnchance = {
+    mountain = 80,
+    crate = 50
+}
+
 
 function Scene:createScene(initX)
     local scene = display.newGroup()
     scene.obstacles = {}
+    
+    -- decide spawn
+    local spawnMountain = spawnchance.mountain > math.random(0,100)
+    local spawnCrate = spawnchance.crate > math.random(0,100)
     
     -- add ground
     local ground = display.newRect(initX, display.contentHeight - GROUND_HEIGHT, display.contentWidth, GROUND_HEIGHT)
@@ -31,15 +38,17 @@ function Scene:createScene(initX)
     --]]
     
     -- add random crate
-    local crate = display.newImage( "images/crate_plain.png" )
-    crate.x = initX + 300
-    crate.y = display.contentHeight - GROUND_HEIGHT - 120
-    crate.id = "crate"
-    _Physics.addBody(crate, "dynamic", {density = 0.01, friction = 0.01, bounce = 0.01})
-    scene:insert(crate)
-    scene.obstacles["crate"] = crate
-    -- reverse pointer back to scene
-    crate.scene = scene
+    if(spawnCrate) then
+        local crate = display.newImage( "images/crate_plain.png" )
+        crate.x = initX + math.random(25, 960-25)
+        crate.y = display.contentHeight - GROUND_HEIGHT - 100
+        crate.id = "crate"
+        _Physics.addBody(crate, "dynamic", {density = 0.01, friction = 0.01, bounce = 0.01})
+        scene:insert(crate)
+        scene.obstacles["crate"] = crate
+        -- reverse pointer back to scene
+        crate.scene = scene
+    end
     
     function scene:removeCrate(crate)
         local scene = crate.scene
@@ -51,14 +60,16 @@ function Scene:createScene(initX)
     end
     
     -- add random mountain
-    local mountainPhysicsData = (require "physicseditor.mountain").physicsData(1.0)
-    local mountainShape = display.newImage("images/Mountain_02.png")
-    mountainShape.x = initX + 500
-    mountainShape.y = display.contentHeight - GROUND_HEIGHT - 100
-    _Physics.addBody( mountainShape, "static", mountainPhysicsData:get("mountain") )
-    scene:insert(mountainShape)
-    scene.obstacles["mountain"] = mountainShape
-    mountainShape.id = "killer" -- practically the same as ground
+    if(spawnMountain) then
+        local mountainPhysicsData = (require "physicseditor.mountain").physicsData(1.0)
+        local mountainShape = display.newImage("images/Mountain_02.png")
+        mountainShape.x = initX + math.random(256, 960-256)
+        mountainShape.y = display.contentHeight - GROUND_HEIGHT - 100
+        _Physics.addBody( mountainShape, "static", mountainPhysicsData:get("mountain") )
+        scene:insert(mountainShape)
+        scene.obstacles["mountain"] = mountainShape
+        mountainShape.id = "killer" -- practically the same as ground
+    end
     
     return scene
 end
