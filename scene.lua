@@ -59,7 +59,6 @@ function Scene:createScene(initX)
     end
     
     function scene:removeCrate(crate)
-        print('removing')
         local scene = crate.scene
         if(scene and crate) then
             crate:removeSelf()
