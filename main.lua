@@ -16,8 +16,24 @@ _Gamestate._StaticBackground = display.newImageRect('images/Background_02_sky.pn
 
 _Gamestate._ForeGroundImage = display.newImageRect( 'images/Ground_01.png', 1920, 69 )
 
-_Gamestate.pointsDisplay = display.newText( "0", display.contentWidth - 50, 50, "Helvetica", 32 )
-_Gamestate.pointsDisplay:setTextColor(255, 0, 0)
+local function createPointText()
+    
+end
+
+_Gamestate.pointsTallyGroup = display.newGroup()
+_Gamestate.pointsBoard = display.newImage("images/scoreboard.png")
+_Gamestate.pointsTallyGroup:insert(_Gamestate.pointsBoard)
+_Gamestate.pointsDisplay = {}
+for i=1,3,1 do
+    local text = display.newText( "0", 0, 0, "Helvetica", 48 )
+    text:setTextColor(255, 255, 255)
+    text.x = 183 - (i * 47)
+    text.y = 44
+    table.insert(_Gamestate.pointsDisplay, text)
+    _Gamestate.pointsTallyGroup:insert(text)
+end
+_Gamestate.pointsTallyGroup.x = 200
+_Gamestate.pointsTallyGroup.y = display.contentHeight - (_Gamestate.pointsBoard.height)
 
 local fuelMeter = display.newImage("images/meter_fuel.png")
 local fuelMeterNeedle = display.newImage("images/meter_fuel_needle.png")
@@ -84,6 +100,8 @@ local function drawScene()
 	_Monsters.scroll()
 	
 	_Gamestate.fuelMeterGroup:toFront()
+	_Gamestate.pointsTallyGroup:toFront()
+	
 	_Gamestate:consumeFuel()
 end
 
