@@ -16,6 +16,9 @@ _Gamestate._StaticBackground = display.newImageRect('images/Background_02_sky.pn
 
 _Gamestate._ForeGroundImage = display.newImageRect( 'images/Ground_01.png', 1920, 69 )
 
+_Gamestate.pointsDisplay = display.newText( "0", display.contentWidth - 50, 50, "Helvetica", 32 )
+_Gamestate.pointsDisplay:setTextColor(255, 0, 0)
+
 local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
 local _Plane = require "plane"
 local _Monsters = require "monster"

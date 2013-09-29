@@ -2,8 +2,6 @@ local gamestate = {}
 local Scene = require "scene"
 
 gamestate.points = 0
-gamestate.pointsDisplay = display.newText( "0", display.contentWidth - 50, 50, "Helvetica", 32 )
-gamestate.pointsDisplay:setTextColor(255, 0, 0)
 
 function gamestate:addScore()
     gamestate.points = gamestate.points + 1
@@ -12,6 +10,7 @@ end
 
 -- create initial scenes
 function gamestate:initScene()
+    gamestate.points = 0
     gamestate._StaticBackground.x = display.contentWidth/2
     gamestate._StaticBackground.y = display.contentHeight/2
     
