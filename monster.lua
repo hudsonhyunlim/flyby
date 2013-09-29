@@ -110,7 +110,7 @@ function monster.init()
 		_Monsters[i]:removeSelf()
 		_Monsters[i] = nil
 	end
-	for i=1, #_MonsterCounter
+	for i=1, #_MonsterCounter do
 		_MonsterCounter[i] = 0
 	end
 end
