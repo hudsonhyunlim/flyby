@@ -49,6 +49,7 @@ function plane.init()
 	_Plane.alpha = 1.0
 	_Plane.id = '_Plane'
 	_Plane.isAlive = true
+	_Plane:setLinearVelocity(0,0)
 end
 
 function _Plane:timer(event)
