@@ -12,7 +12,7 @@ display.setStatusBar( display.HiddenStatusBar )
 
 -- | VARIABLE DECLARATIONS | --
 local _Gamestate = require "gamestate"
-_Gamestate._StaticBackground = display.newImageRect('images/Background_02_sky.png', 960, 640)
+_Gamestate._StaticBackground = display.newImageRect('images/Background_02_sky.png', display.contentWidth, display.contentHeight)
 
 -- create some random cloud --
 _Gamestate.cloudGroup = display.newGroup()
@@ -33,8 +33,8 @@ for i=1,10,1 do
     createRandomCloud(0)
 end
 
-_Gamestate._BackGroundImage = display.newImageRect( 'images/Background_01.png', 1920, 96 )
-_Gamestate._ForeGroundImage = display.newImageRect( 'images/Ground_01.png', 1920, 69 )
+_Gamestate._BackGroundImage = display.newImageRect( 'images/Background_01.png', display.contentWidth * 2, 96 )
+_Gamestate._ForeGroundImage = display.newImageRect( 'images/Ground_01.png', display.contentWidth * 2, 69 )
 
 local function createPointText()
     
@@ -147,7 +147,7 @@ local function startGame()
 end
 
 -- start screen
-local _TitleCard = display.newImageRect('images/startscreen.png', 960, 640)
+local _TitleCard = display.newImageRect('images/startscreen.png', display.contentWidth, display.contentHeight)
 _TitleCard.x = display.contentWidth/2
 _TitleCard.y = display.contentHeight/2
 _TitleCard:addEventListener('touch', function(event)
