@@ -42,22 +42,24 @@ function plane.init()
 	_Plane.x = display.contentWidth / 2
 	_Plane.y = 50
 	_Plane.id = '_Plane'
+	_Plane.isAlive = true
 end
 
 function _Plane:timer(event)
-	local vx, vy = _Plane:getLinearVelocity()
-	if _Ascend == true then
-		if vy > -500 then
-			_Plane:applyForce(0, -1000, 0, 0)
-		end
+    if(_Plane.isAlive) then
+    	local vx, vy = _Plane:getLinearVelocity()
+    	if _Ascend == true then
+    		if vy > -500 then
+    			_Plane:applyForce(0, -1000, 0, 0)
+    		end
+    	end
+    	timer.performWithDelay(5, _Plane)
 	end
-	timer.performWithDelay(5, _Plane)
 end
 
 local function onTouch( event )
 	if event.phase == "began" then
 		_Ascend = true
-		
 	elseif event.phase == "ended" then
 		_Ascend = false
 	end
@@ -82,6 +84,11 @@ local function onCollision(self, event)
     if(event.other.id and event.other.id == "ground") then
         -- dead
         print('should be dead')
+        _Plane.alpha = 0.0  -- hide plane
+        _Plane.isAlive = false
+        local Explosion = require "explosion"
+        Explosion:createExplosion(_Plane.x, _Plane.y)
+        -- TODO: remove plane physics body as well?
         _Physics.sceneSpeed = 0
     end
 end
