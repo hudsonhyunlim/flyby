@@ -43,9 +43,12 @@ _Gamestate.fuelMeterGroup:insert(fuelMeterNeedle)
 _Gamestate.fuelMeterGroup.fuelMeter = fuelMeter
 _Gamestate.fuelMeterGroup.needle = fuelMeterNeedle
 
+local _Audio = require "gameaudio"
 local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
 local _Plane = require "plane"
 local _Monsters = require "monster"
+
+_Audio:init()
 
 _Gamestate.scenes = {}
 _Gamestate.plane = _Plane

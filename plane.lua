@@ -32,6 +32,7 @@ local _Physics = require "gamephysics"				-- This is the object that handles the
 local _Ascend = false							-- Is the user currently pressing to fly?
 local _Ceiling = display.newRect(0, -1, display.contentWidth, 1)	-- Prevents plane from returning to its people
 local _Gamestate = require "gamestate"
+local _Audio = require "gameaudio"
 
 
 function plane.init()
@@ -56,13 +57,18 @@ end
 function _Plane:timer(event)
     if(not _Gamestate:hasFuel()) then
         _Ascend = false
-    end 
+    end
     if(_Gamestate.isAlive) then
     	local vx, vy = _Plane:getLinearVelocity()
     	if _Ascend == true then
     		if vy > -500 then
     			_Plane:applyForce(0, -1000, 0, 0)
     		end
+            _Audio:stopLoop("descent")
+            _Audio:playLoop("ascent", {loops=-1})
+        else
+            _Audio:stopLoop("ascent")
+            _Audio:playLoop("descent", {loops=-1})
     	end
     	_Physics.sceneSpeed = math.floor( ((display.contentHeight - _Plane.y)/display.contentHeight) * SPEED_RANGE_FACTOR ) + SPEED_BASE_FACTOR
     	timer.performWithDelay(5, _Plane)
@@ -103,6 +109,11 @@ local function onCollision(self, event)
         if(event.other.id and event.other.collisionType == "killer" and _Gamestate.isAlive) then
             -- dead
             print('should be dead')
+            
+            -- stop audio
+            _Audio:stopLoop('ascent')
+            _Audio:stopLoop('descent')
+            
             _Plane.alpha = 0.0  -- hide plane
             _Gamestate.isAlive = false
             local Explosion = require "explosion"
