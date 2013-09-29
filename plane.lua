@@ -98,6 +98,11 @@ local function onCollision(self, event)
             local Explosion = require "explosion"
             Explosion:createExplosion(_Plane.x, _Plane.y)
             -- TODO: remove plane physics body as well?
+			if (event.other.id == "zepp") then
+				event.other.alpha = 0.0
+				local ExplosionOther = require "explosion"
+				ExplosionOther:createExplosion(event.other.x, event.other.y)
+			end
             _Physics.sceneSpeed = 0
         end
     end
