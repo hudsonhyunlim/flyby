@@ -20,7 +20,7 @@ local _PlaneSequenceData = {
   }  --if defining more sequences, place a comma here and proceed to the next sequence sub-table
  
 }
-local _PlaneSheetData = { width=256, height=61, numFrames=5, sheetContentWidth=1280, sheetContentHeight=61 }
+local _PlaneSheetData = { width=128, height=31, numFrames=5, sheetContentWidth=640, sheetContentHeight=31 }
 local _PlaneSheet = graphics.newImageSheet( "images/PlayerPlane_animation.png", _PlaneSheetData )
 local _Plane = display.newSprite( _PlaneSheet, _PlaneSequenceData )
 _Plane:play()
@@ -65,6 +65,9 @@ function _Plane:timer(event)
             _Audio:stopLoop("descent")
             _Audio:playLoop("ascent", {loops=-1})
         else
+            if vy < 0 then
+                _Plane:applyForce(0, _Gamestate.TOP_TURN_FORCE, 0, 0)
+            end
             _Audio:stopLoop("ascent")
             _Audio:playLoop("descent", {loops=-1})
     	end

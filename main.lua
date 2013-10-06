@@ -150,6 +150,7 @@ local function startGame()
     _Audio:playLoop('gameplay', {loops=-1})
     -- | PHYSICS PRIMER | --
     _Physics.start()	-- Engage Physics
+    _Physics.setGravity(0, 9.8)
     _Plane.init()		-- Engage Plane
     _Monsters.init()	-- Engage Monsters
     _Gamestate:initScene()

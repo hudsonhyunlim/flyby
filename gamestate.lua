@@ -9,7 +9,8 @@ local monsters = require "monster"
 local _Audio = require "gameaudio"
 
 gamestate.SPEED_RANGE_FACTOR = 20
-gamestate.SPEED_BASE_FACTOR = 10
+gamestate.SPEED_BASE_FACTOR = 5
+gamestate.TOP_TURN_FORCE = 750
 
 gamestate.points = 0
 gamestate.fuel = 500
