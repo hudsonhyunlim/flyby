@@ -50,6 +50,9 @@ end
 
 
 local function addMonster(monsterType, vMagnitude) -- Monster type is the monster name, vMagnitude is the height
+	if (vMagnitude == 3) then
+		vMagnitude = 0
+	end
 	if (monsterType == "zepp") then
 		local t_monster = display.newImage("images/zepp.png")
 		local physicsData = (require "physicseditor.zepp").physicsData(1.0)
@@ -83,10 +86,10 @@ local function spawnMonster()
 		if _MonsterCount["zepp_recent"] == 0 then
 			if (_MonsterCount["zepp"] == 0) then
 				-- if (math.random(0, 1))
-				addMonster("zepp", math.random(0,2))
+				addMonster("zepp", math.random(0,3))
 				_MonsterCount["zepp_recent"] = _MonsterCount["zepp_recent"] + 1
 				-- print("Monster Count".._MonsterCount["zepp_recent"])
-				timer.performWithDelay((1000*math.random(1, 10)), function()
+				timer.performWithDelay((750*math.random(1, 10)), function()
 												_MonsterCount["zepp_recent"] = _MonsterCount["zepp_recent"] - 1
 												-- print("Monster count: ".._MonsterCount["zepp_recent"])
 												end)
@@ -96,10 +99,10 @@ local function spawnMonster()
 		if _MonsterCount["zepp_fall_recent"] == 0 then
 			if (_MonsterCount["zepp_fall"] == 0) then
 				-- if (math.random(0, 1))
-				addMonster("zepp_fall", math.random(0,2))
+				addMonster("zepp_fall", math.random(0,3))
 				_MonsterCount["zepp_fall_recent"] = _MonsterCount["zepp_fall_recent"] + 1
 				-- print("ZeppFall Count".._MonsterCount["zepp_fall_recent"])
-				timer.performWithDelay((1000*math.random(1, 10)), function()
+				timer.performWithDelay((750*math.random(1, 10)), function()
 												_MonsterCount["zepp_fall_recent"] = _MonsterCount["zepp_fall_recent"] - 1
 												-- print("ZeppFall count: ".._MonsterCount["zepp_fall_recent"])
 												end)
