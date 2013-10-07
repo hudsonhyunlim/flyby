@@ -54,15 +54,19 @@ for i=1,5,1 do
     _Gamestate.pointsTallyGroup:insert(text)
 end
 _Gamestate.pointsTallyGroup.x = display.contentWidth - 200
-_Gamestate.pointsTallyGroup.y = display.contentHeight - (_Gamestate.pointsBoard.height)
+_Gamestate.pointsTallyGroup.y = display.contentHeight - (_Gamestate.pointsBoard.height) - 3
 
-local fuelMeter = display.newImage("images/meter_fuel.png")
-local fuelMeterNeedle = display.newImage("images/meter_fuel_needle.png")
+local fuelBarBack = display.newImage("images/new/meter_fuel.png")
+local fuelBar = display.newImage("images/new/meter_bar.png")
 _Gamestate.fuelMeterGroup = display.newGroup()
-_Gamestate.fuelMeterGroup:insert(fuelMeter)
-_Gamestate.fuelMeterGroup:insert(fuelMeterNeedle)
-_Gamestate.fuelMeterGroup.fuelMeter = fuelMeter
-_Gamestate.fuelMeterGroup.needle = fuelMeterNeedle
+_Gamestate.fuelMeterGroup:insert(fuelBarBack)
+_Gamestate.fuelMeterGroup:insert(fuelBar)
+_Gamestate.fuelMeterGroup.fuelBarBack = fuelBarBack
+_Gamestate.fuelMeterGroup.fuelBar = fuelBar
+_Gamestate.fuelMeterGroup.fuelBar.originalWidth = fuelBar.width
+fuelBar.x = 12
+fuelBar.y = 17
+_Gamestate.fuelMeterGroup.fuelBar.originalX = fuelBar.x
 
 _Gamestate.lowFuelIndicator = display.newImage("images/lowfuel_text.png")
 _Gamestate.lowFuelIndicator.x = display.contentWidth/2

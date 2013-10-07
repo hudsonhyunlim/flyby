@@ -35,13 +35,14 @@ function gamestate:addFuel()
         addedFuel = MAX_FUEL - gamestate.fuel
     end
     gamestate.fuel = gamestate.fuel + addedFuel
-    gamestate.fuelMeterGroup.needle:rotate(-(addedFuel/10))
 end
 
 function gamestate:consumeFuel()
     if(gamestate.isAlive and gamestate:hasFuel()) then
         gamestate.fuel = gamestate.fuel - FUEL_RATE
-        gamestate.fuelMeterGroup.needle:rotate(FUEL_RATE/10)
+        local newWidth = gamestate.fuelMeterGroup.fuelBar.originalWidth * (gamestate.fuel / MAX_FUEL)
+        gamestate.fuelMeterGroup.fuelBar.width = newWidth
+        gamestate.fuelMeterGroup.fuelBar.x = newWidth / 2 + gamestate.fuelMeterGroup.fuelBar.originalX
         if(gamestate.fuel < LOW_FUEL_LIMIT and not gamestate.isLowFuel) then
             gamestate:lowFuelOn()
         elseif(gamestate.fuel >= LOW_FUEL_LIMIT and gamestate.isLowFuel) then
@@ -52,10 +53,6 @@ end
 
 function gamestate:hasFuel()
     return gamestate.fuel > 0
-end
-
-function gamestate:initNeedle()
-    gamestate.fuelMeterGroup.needle:rotate(-(MAX_FUEL - gamestate.fuel)/10)
 end
 
 function gamestate:fuelAlphaOff()
@@ -85,11 +82,8 @@ function gamestate:initScene()
     gamestate.points = 0
     gamestate:setScore(0)
     
-    gamestate.fuelMeterGroup.x = -gamestate.fuelMeterGroup.fuelMeter.width / 2
-    gamestate.fuelMeterGroup.y = display.contentHeight - (gamestate.fuelMeterGroup.fuelMeter.height) - 10
-    gamestate.fuelMeterGroup.needle.y = 80
-    gamestate.fuelMeterGroup.needle.xReference = -20
-    gamestate:initNeedle()
+    gamestate.fuelMeterGroup.x = display.contentWidth / 2 - gamestate.fuelMeterGroup.fuelBarBack.width / 2
+    gamestate.fuelMeterGroup.y = display.contentHeight - gamestate.fuelMeterGroup.fuelBarBack.height - 3
     
     gamestate.fuel = MAX_FUEL
     
