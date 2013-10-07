@@ -68,6 +68,12 @@ local function addMonster(monsterType, vMagnitude) -- Monster type is the monste
 		local t_monster = display.newImage("images/falling_zepp.png")
 		local physicsData = (require "physicseditor.zepp").physicsData(1.0)
 		_Physics.addBody( t_monster, 'dynamic', physicsData:get("zepp") )
+		-- upward hack
+	    if math.random(1,2) == 1 then
+		    t_monster.direction = "up"
+		    vMagnitude = 3
+		end
+		-- end up hack
 		t_monster.x = (display.contentWidth + (t_monster.width / 2))
 		t_monster.y = 50 + (100 * vMagnitude)
 		t_monster.id = "zepp_fall"
@@ -130,8 +136,9 @@ function monster.scroll()
 	for i=1, #_Monsters do
 	    local yTranslation = 0
 	    if(_Monsters[i].id == 'zepp_fall') then
-	        local vx, vy = _Monsters[i]:getLinearVelocity()
-	        if(vy > MAX_ZEPP_FALL_SPEED) then
+	        if(_Monsters[i].direction and _Monsters[i].direction == 'up') then
+	            _Monsters[i]:setLinearVelocity(0, -MAX_ZEPP_FALL_SPEED)
+	        else
 	            _Monsters[i]:setLinearVelocity(0, MAX_ZEPP_FALL_SPEED)
 	        end
 	    end

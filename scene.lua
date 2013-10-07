@@ -8,6 +8,8 @@ local GROUND_HEIGHT = 45
 local spawnchance = {
     mountain = 30,
     mountain2 = 70,
+    mountain3 = 70,
+    trees = 100,
     crate = 0,
     fuel = 80
 }
@@ -23,6 +25,8 @@ function Scene:createScene(initX)
     -- decide spawn
     local spawnMountain = spawnchance.mountain > math.random(0,100)
     local spawnMountain2 = spawnchance.mountain2 > math.random(0,100)
+    local spawnMountain3 = spawnchance.mountain3 > math.random(0,100)
+    local spawnTrees = spawnchance.trees > math.random(0,100)
     local spawnCrate = spawnchance.crate > math.random(0,100)
     local spawnFuel = spawnchance.fuel > math.random(0,100)
     
@@ -67,6 +71,7 @@ function Scene:createScene(initX)
         
     end
     
+    -- TODO: remove hardcodes here in the future, yuck
     -- add random mountain
     if(spawnMountain) then
         local mountainPhysicsData = (require "physicseditor.mountain").physicsData(1.0)
@@ -91,6 +96,33 @@ function Scene:createScene(initX)
         scene.obstacles["mountain2"] = mountainShape2
         mountainShape2.id = "mountain2" -- practically the same as ground
         mountainShape2.collisionType = "killer"
+    end
+    
+    -- add random mountain
+    if(spawnMountain3) then
+        local mountainPhysicsData3 = (require "physicseditor.mountain3").physicsData(1.0)
+        local mountainShape3 = display.newImage("images/Mountain_03.png")
+        mountainShape3.x = initX + math.random(256, 960-256)
+        mountainShape3.y = display.contentHeight - GROUND_HEIGHT - 37
+        _Physics.addBody( mountainShape3, "static", mountainPhysicsData3:get("Mountain_03") )
+        scene:insert(mountainShape3)
+        scene.obstacles["mountain3"] = mountainShape3
+        mountainShape3.id = "mountain3" -- practically the same as ground
+        mountainShape3.collisionType = "killer"
+    end
+    
+    if(spawnTrees) then
+        local treePhysics = (require "physicseditor.trees").physicsData(1.0)
+        for i=1,math.random(1,4),1 do
+            local treeShape = display.newImage("images/trees"..i..".png")
+            treeShape.x = initX + math.random(128, 960-128)
+            treeShape.y = display.contentHeight - GROUND_HEIGHT - 21
+            _Physics.addBody( treeShape, "static", treePhysics:get("trees"..i) )
+            scene:insert(treeShape)
+            scene.obstacles["trees"..i] = treeShape
+            treeShape.id = "trees" -- practically the same as ground
+            treeShape.collisionType = "killer"
+        end
     end
     
     return scene
