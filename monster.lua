@@ -9,7 +9,7 @@
 
 local monster = {}
 
-local FALLING_ZEPP_RATE = 3
+local MAX_ZEPP_FALL_SPEED = 100
 
 -- | VARIABLE DECLARATIONS | --
 local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
@@ -27,7 +27,10 @@ local function delayZepp()
 end
 
 local function onCollision(self, event) -- Explode the enemies
+    print('should be collide')
 	if(event.phase == "began") then
+	    print(event.other.id)
+	    print(event.other.collisionType)
 		if(event.other.id and event.other.collisionType == "killer") then
             -- dead
             -- print ("Explode")
@@ -67,7 +70,7 @@ local function addMonster(monsterType, vMagnitude) -- Monster type is the monste
 	elseif (monsterType == "zepp_fall") then
 		local t_monster = display.newImage("images/falling_zepp.png")
 		local physicsData = (require "physicseditor.zepp").physicsData(1.0)
-		_Physics.addBody( t_monster, 'static', physicsData:get("zepp") )
+		_Physics.addBody( t_monster, 'dynamic', physicsData:get("zepp") )
 		t_monster.x = (display.contentWidth + (t_monster.width / 2))
 		t_monster.y = 50 + (100 * vMagnitude)
 		t_monster.id = "zepp_fall"
@@ -77,6 +80,7 @@ local function addMonster(monsterType, vMagnitude) -- Monster type is the monste
 		table.insert(_Monsters, t_monster)
 		t_monster.collision = onCollision
 		t_monster:addEventListener("collision", t_monster)
+		--t_monster:setLinearVelocity(0, 100)
 	end	
 end
 
@@ -129,9 +133,12 @@ function monster.scroll()
 	for i=1, #_Monsters do
 	    local yTranslation = 0
 	    if(_Monsters[i].id == 'zepp_fall') then
-	        yTranslation = FALLING_ZEPP_RATE
+	        local vx, vy = _Monsters[i]:getLinearVelocity()
+	        if(vy > MAX_ZEPP_FALL_SPEED) then
+	            _Monsters[i]:setLinearVelocity(0, MAX_ZEPP_FALL_SPEED)
+	        end
 	    end
-		_Monsters[i]:translate(-_Physics.sceneSpeed, yTranslation)
+		_Monsters[i]:translate(-_Physics.sceneSpeed, 0)
 		
 		if (_Monsters[i].x + (_Monsters[i].width / 2)) < 0 then
 			-- print(_MonsterCount[_Monsters[i].id])

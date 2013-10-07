@@ -42,7 +42,7 @@ function Scene:createScene(initX)
         crate.x = initX + math.random(25, 960-25)
         crate.y = display.contentHeight - GROUND_HEIGHT - 100
         crate.id = crateType
-        _Physics.addBody(crate, "dynamic", {density = 0.01, friction = 0.01, bounce = 0.01})
+        _Physics.addBody(crate, "dynamic", {density = 0.01, friction = 1.0, bounce = 0.01})
         scene:insert(crate)
         scene.obstacles[crateType] = crate
         -- reverse pointer back to scene
