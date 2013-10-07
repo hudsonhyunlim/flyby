@@ -9,6 +9,8 @@
 
 local monster = {}
 
+local FALLING_ZEPP_RATE = 3
+
 -- | VARIABLE DECLARATIONS | --
 local _Physics = require "gamephysics"				-- This is the object that handles the world's physics
 local _MonsterCount =	{							-- Count of monsters on screen
@@ -25,9 +27,7 @@ local function delayZepp()
 end
 
 local function onCollision(self, event) -- Explode the enemies
-	-- print ("Not Explode")
 	if(event.phase == "began") then
-		-- print ("Explode Begin")
 		if(event.other.id and event.other.collisionType == "killer") then
             -- dead
             -- print ("Explode")
@@ -67,7 +67,7 @@ local function addMonster(monsterType, vMagnitude) -- Monster type is the monste
 	elseif (monsterType == "zepp_fall") then
 		local t_monster = display.newImage("images/falling_zepp.png")
 		local physicsData = (require "physicseditor.zepp").physicsData(1.0)
-		_Physics.addBody( t_monster, physicsData:get("zepp") )
+		_Physics.addBody( t_monster, 'static', physicsData:get("zepp") )
 		t_monster.x = (display.contentWidth + (t_monster.width / 2))
 		t_monster.y = 50 + (100 * vMagnitude)
 		t_monster.id = "zepp_fall"
@@ -127,7 +127,12 @@ end
 
 function monster.scroll()
 	for i=1, #_Monsters do
-		_Monsters[i]:translate(-_Physics.sceneSpeed, 0)
+	    local yTranslation = 0
+	    if(_Monsters[i].id == 'zepp_fall') then
+	        yTranslation = FALLING_ZEPP_RATE
+	    end
+		_Monsters[i]:translate(-_Physics.sceneSpeed, yTranslation)
+		
 		if (_Monsters[i].x + (_Monsters[i].width / 2)) < 0 then
 			-- print(_MonsterCount[_Monsters[i].id])
 			_MonsterCount[_Monsters[i].id] = _MonsterCount[_Monsters[i].id] - 1
