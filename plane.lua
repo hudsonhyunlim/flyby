@@ -111,8 +111,6 @@ local function onCollision(self, event)
         end
         
         if(event.other.id and event.other.collisionType == "killer" and _Gamestate.isAlive) then
-            -- dead
-            print('should be dead')
             
             -- stop audio
             _Audio:stopLoop('ascent')

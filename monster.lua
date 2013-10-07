@@ -27,10 +27,7 @@ local function delayZepp()
 end
 
 local function onCollision(self, event) -- Explode the enemies
-    print('should be collide')
 	if(event.phase == "began") then
-	    print(event.other.id)
-	    print(event.other.collisionType)
 		if(event.other.id and event.other.collisionType == "killer") then
             -- dead
             -- print ("Explode")
@@ -152,7 +149,7 @@ function monster.scroll()
 			_Monsters[i] = nil
 		end
 	end	
-	print("_MonsterCount: z(".._MonsterCount["zepp"]..") zr(".._MonsterCount["zepp_recent"]..") zf(".._MonsterCount["zepp_fall"]..") zfr(".._MonsterCount["zepp_fall_recent"]..") t(".._MonsterCount["total"]..")")
+	-- print("_MonsterCount: z(".._MonsterCount["zepp"]..") zr(".._MonsterCount["zepp_recent"]..") zf(".._MonsterCount["zepp_fall"]..") zfr(".._MonsterCount["zepp_fall_recent"]..") t(".._MonsterCount["total"]..")")
 	if _MonsterCount["total"] < 1 then
 		spawnMonster()
 	end
