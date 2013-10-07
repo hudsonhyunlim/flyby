@@ -90,7 +90,7 @@ local function spawnMonster()
 				_MonsterCount["zepp_recent"] = _MonsterCount["zepp_recent"] + 1
 				-- print("Monster Count".._MonsterCount["zepp_recent"])
 				timer.performWithDelay((750*math.random(1, 10)), function()
-												_MonsterCount["zepp_recent"] = _MonsterCount["zepp_recent"] - 1
+												_MonsterCount["zepp_recent"] = 0
 												-- print("Monster count: ".._MonsterCount["zepp_recent"])
 												end)
 			end
@@ -103,7 +103,7 @@ local function spawnMonster()
 				_MonsterCount["zepp_fall_recent"] = _MonsterCount["zepp_fall_recent"] + 1
 				-- print("ZeppFall Count".._MonsterCount["zepp_fall_recent"])
 				timer.performWithDelay((750*math.random(1, 10)), function()
-												_MonsterCount["zepp_fall_recent"] = _MonsterCount["zepp_fall_recent"] - 1
+												_MonsterCount["zepp_fall_recent"] = 0
 												-- print("ZeppFall count: ".._MonsterCount["zepp_fall_recent"])
 												end)
 			end
@@ -131,13 +131,16 @@ function monster.scroll()
 		if (_Monsters[i].x + (_Monsters[i].width / 2)) < 0 then
 			-- print(_MonsterCount[_Monsters[i].id])
 			_MonsterCount[_Monsters[i].id] = _MonsterCount[_Monsters[i].id] - 1
+			if (_MonsterCount[_Monsters[i].id] < 0) then
+				_MonsterCount[_Monsters[i].id] = 0
+			end
 			-- print(_MonsterCount[_Monsters[i].id])
 			_MonsterCount["total"] = _MonsterCount["total"] - 1
 			_Monsters[i]:removeSelf()
 			_Monsters[i] = nil
 		end
 	end	
-	-- print(_MonsterCount["total"])
+	print("_MonsterCount: z(".._MonsterCount["zepp"]..") zr(".._MonsterCount["zepp_recent"]..") zf(".._MonsterCount["zepp_fall"]..") zfr(".._MonsterCount["zepp_fall_recent"]..") t(".._MonsterCount["total"]..")")
 	if _MonsterCount["total"] < 1 then
 		spawnMonster()
 	end
