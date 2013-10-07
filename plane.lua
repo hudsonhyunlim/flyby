@@ -43,7 +43,7 @@ function plane.init()
 
 	-- | PLANE PHYSICS | --
 	_Plane.isFixedRotation = true
-	_Plane.x = 150
+	_Plane.x = 120
 	_Plane.y = 50
 	_Plane.alpha = 1.0
 	_Plane.id = '_Plane'
@@ -58,6 +58,9 @@ function _Plane:timer(event)
     end
     if(_Gamestate.isAlive) then
     	local vx, vy = _Plane:getLinearVelocity()
+    	if vx ~= 0 then
+    	    _Plane.x = 120
+    	end
     	if _Ascend == true then
     		if vy > -500 then
     			_Plane:applyForce(0, -1000, 0, 0)

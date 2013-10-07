@@ -2,7 +2,7 @@ local Scene = {}
 local _Physics = require("gamephysics")
 
 -- constants
-local GROUND_HEIGHT = 40
+local GROUND_HEIGHT = 45
 
 -- spawn likelihood
 local spawnchance = {

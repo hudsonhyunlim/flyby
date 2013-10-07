@@ -59,12 +59,10 @@ function gamestate:initNeedle()
 end
 
 function gamestate:fuelAlphaOff()
-    print('alphaoff')
     transition.to(gamestate.lowFuelIndicator, {time=FUEL_FLASH_TIME, alpha=0.0, onComplete=gamestate.fuelAlphaOn})
 end
 
 function gamestate:fuelAlphaOn()
-    print('alphaon')
     if(gamestate.isLowFuel) then
         transition.to(gamestate.lowFuelIndicator, {time=FUEL_FLASH_TIME, alpha=0.8, onComplete=gamestate.fuelAlphaOff})
     end
