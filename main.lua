@@ -53,7 +53,7 @@ for i=1,5,1 do
     table.insert(_Gamestate.pointsDisplay, text)
     _Gamestate.pointsTallyGroup:insert(text)
 end
-_Gamestate.pointsTallyGroup.x = 200
+_Gamestate.pointsTallyGroup.x = display.contentWidth - 200
 _Gamestate.pointsTallyGroup.y = display.contentHeight - (_Gamestate.pointsBoard.height)
 
 local fuelMeter = display.newImage("images/meter_fuel.png")
