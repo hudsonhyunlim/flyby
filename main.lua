@@ -41,15 +41,15 @@ local function createPointText()
 end
 
 _Gamestate.pointsTallyGroup = display.newGroup()
-_Gamestate.pointsBoard = display.newImage("images/scoreboard.png")
+_Gamestate.pointsBoard = display.newImage("images/new/scoreboard.png")
 _Gamestate.pointsTallyGroup:insert(_Gamestate.pointsBoard)
 _Gamestate.pointsDisplay = {}
 for i=1,5,1 do
-    local text = display.newText( "0", 0, 0, "Helvetica", 36 )
+    local text = display.newText( "0", 0, 0, "Helvetica", 24 )
     text:setTextColor(255, 255, 255)
-    local factor = 31
-    text.x = 148 + factor - (i * factor)
-    text.y = 28
+    local factor = 22.5
+    text.x = 113 + factor - (i * factor)
+    text.y = 16
     table.insert(_Gamestate.pointsDisplay, text)
     _Gamestate.pointsTallyGroup:insert(text)
 end
