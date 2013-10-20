@@ -65,14 +65,19 @@ local function addMonster(monsterType, vMagnitude) -- Monster type is the monste
 		_MonsterCount["total"] = _MonsterCount["total"]  + 1
 		table.insert(_Monsters, t_monster)
 	elseif (monsterType == "zepp_fall") then
-		local t_monster = display.newImage("images/falling_zepp.png")
-		local physicsData = (require "physicseditor.zepp").physicsData(1.0)
-		_Physics.addBody( t_monster, 'dynamic', physicsData:get("zepp") )
-		-- upward hack
+	    local t_monster
+	    -- upward hack
 	    if math.random(1,2) == 1 then
+	        t_monster = display.newImage("images/rising_zepp.png")
 		    t_monster.direction = "up"
 		    vMagnitude = 3
+		else
+		    t_monster = display.newImage("images/falling_zepp.png")
 		end
+		 
+		local physicsData = (require "physicseditor.zepp").physicsData(1.0)
+		_Physics.addBody( t_monster, 'dynamic', physicsData:get("zepp") )
+		
 		-- end up hack
 		t_monster.x = (display.contentWidth + (t_monster.width / 2))
 		t_monster.y = 50 + (100 * vMagnitude)
