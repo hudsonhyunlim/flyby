@@ -4,3 +4,4 @@ screenshots/
 process\ photos/
 __MACOSX/
 applecerts/
+*.DS_Store
