@@ -12,8 +12,8 @@ settings =
             CFBundleIconFiles = {
             "Icon.png",
             "Icon@2x.png",
-            "Icon-40.png",
-            "Icon-40@2x.png",
+            "Icon-Small-40.png",
+            "Icon-Small-40@2x.png",
             "Icon-60.png",
             "Icon-60@2x.png",
             "Icon-72.png",

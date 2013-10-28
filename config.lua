@@ -1,3 +1,4 @@
+--[[
 if ( display.pixelHeight / display.pixelWidth > 1.72 ) then
 	application =
 	{
@@ -12,16 +13,19 @@ if ( display.pixelHeight / display.pixelWidth > 1.72 ) then
 		}
 	}
 else
+--]]
+-- scale everything to width ratio
+local scaleFactor = display.pixelWidth / 640
+
 	application =
 	{
 		content =
 		{
-			width = 640,
-			height = 960,
-			scale = "letterbox",
+			width = display.pixelWidth/scaleFactor,
+			height = display.pixelHeight/scaleFactor,
+			scale = "zoomStretch",
 			xAlign = "left",
 			yAlign = "top",
 
 		}
 	}
-end
